@@ -1,0 +1,26 @@
+#color-game_board {
+    background: #FFEFEE;
+    width: 800px;
+    height: 600px;
+    border-radius: 24px;
+    margin: 0 auto;
+    position: relative;
+    &--zone-player-1 {
+        width: 100%;
+        height: 200px;
+        border: 1px solid red;
+        position: absolute;
+        bottom: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    &--zone-player-2 {
+        width: 100%;
+        height: 200px;
+        border: 1px solid red;
+        position: absolute;
+        top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+}

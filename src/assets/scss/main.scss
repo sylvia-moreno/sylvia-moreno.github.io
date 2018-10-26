@@ -1,0 +1,11 @@
+@import "board-game.scss";
+@import "cards.scss";
+$midnight-blue: #2c3e50;
+body {
+    background-color: $midnight-blue;
+}
+
+.color-game--title {
+    font-size: 20px;
+    color: #fff;
+}

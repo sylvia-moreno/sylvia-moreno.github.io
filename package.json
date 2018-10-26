@@ -1,0 +1,20 @@
+{
+    "name": "4colors-game",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build:css": "node-sass --include-path scss src/assets/scss/main.scss   main.css",
+        "watch:css": "nodemon -e scss -x \"npm run build:css\"",
+        "clean": "rm dist/bundle.js",
+        "build-dev": "webpack -d --mode development",
+        "build-dev:watch": "webpack -d --mode development --watch",
+        "build-prod": "webpack -p --mode production"
+    },
+    "dependencies": {
+        "nodemon": "^1.18.4"
+    },
+    "devDependencies": {
+        "webpack": "^4.23.1",
+        "webpack-cli": "^3.1.2"
+    }
+}

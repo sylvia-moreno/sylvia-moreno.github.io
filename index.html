@@ -5,15 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="main.css">
     <title>Document</title>
 </head>
 
 <body>
-    <div class="color-game">
-        <div id="color-game--board"></div>
+    <div class="color-game-wrapper">
+        <h1 class="color-game_title">4colors game</h1>
+        <div class="color-game">
+            <div id="color-game_board">
+                <div class="zone-player-top" id="color-game_board--zone-player-1"></div>
+                <div class="zone-player-bottom" id="color-game_board--zone-player-2"></div>
+            </div>
+        </div>
     </div>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="dist/bundle.js"></script>
 </body>
 
 </html>

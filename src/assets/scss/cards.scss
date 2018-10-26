@@ -1,0 +1,34 @@
+.card-game {
+    width: 100px;
+}
+
+.card {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    width: 150px;
+    height: 160px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 15px solid;
+    &-ROSE {
+        color: #FAB6C4;
+    }
+    &-ROUGE {
+        color: #FF4539;
+    }
+    &-BLEU {
+        color: #7386D6
+    }
+    &-VIOLET {
+        color: #8C9EC8;
+    }
+    &-number {
+        color: inherit;
+        font-size: 50px;
+    }
+}
