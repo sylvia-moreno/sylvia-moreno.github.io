@@ -1,59 +1,73 @@
 var Player = require('./player.js');
+//var renderCard = require('./utils/render-card.js');
 
-//couleur vert, rouge, bleu, jaune
-var cardValue = [
-    '0ROSE', '1ROSE', '2ROSE', '3ROSE', '4ROSE', '5ROSE', '6ROSE', '7ROSE', '8ROSE', '9ROSE',
-    '0ROUGE', '1ROUGE', '2ROUGE', '3ROUGE', '4ROUGE', '5ROUGE', '6ROUGE', '7ROUGE', '8ROUGE', '9ROUGE',
-    '0BLEU', '1BLEU', '2BLEU', '3BLEU', '4BLEU', '5BLEU', '6BLEU', '7BLEU', '8BLEU', '9BLEU',
-    '0VIOLET', '1VIOLET', '2VIOLET', '3VIOLET', '4VIOLET', '5VIOLET', '6VIOLET', '7VIOLET', '8VIOLET', '9VIOLET', 'BACK'
-];
+var CardGame = function() {
 
-//function qui affiche des cartes au random
-function getRandomCard() {
-    var cards = [];
-    for (i = 0; i < 7; i++) {
-        cards.push(cardValue[Math.floor(Math.random() * cardValue.length)])
+    //couleurs des cartes à jouer
+    var cardValue = [
+        '0ROSE', '1ROSE', '2ROSE', '3ROSE', '4ROSE', '5ROSE', '6ROSE', '7ROSE', '8ROSE', '9ROSE',
+        '0ROUGE', '1ROUGE', '2ROUGE', '3ROUGE', '4ROUGE', '5ROUGE', '6ROUGE', '7ROUGE', '8ROUGE', '9ROUGE',
+        '0BLEU', '1BLEU', '2BLEU', '3BLEU', '4BLEU', '5BLEU', '6BLEU', '7BLEU', '8BLEU', '9BLEU',
+        '0VIOLET', '1VIOLET', '2VIOLET', '3VIOLET', '4VIOLET', '5VIOLET', '6VIOLET', '7VIOLET', '8VIOLET', '9VIOLET'
+    ];
+
+    //function qui affiche 7 cartes random à l'init 
+    function getRandomCard() {
+        var cards = [];
+        for (i = 0; i < 7; i++) {
+            cards.push(cardValue[Math.floor(Math.random() * cardValue.length)])
+        }
+        return cards;
     }
-    return cards;
+
+    //je veux associer la value de l'array 'cardValue' à une carte pour afficher le CSS
+    function renderCard(player) {
+        var cardsArray = getRandomCard();
+        player.cardsArray = cardsArray;
+
+        var newArr = [];
+        cardsArray.forEach(function(card) {
+            var numberCard = card.split('');
+            var cardColor = card.slice(1);
+
+            var myCard = null;
+
+            if (player.isCardVisible) {
+                myCard = '<div class="card card-' + cardColor + '" >' + '<span class="card-number">' + numberCard[0] + '</span>' + '</div>';
+            } else {
+                myCard = '<div class="card card-BACK"><span class="card-number">B</span></div>';
+            }
+            newArr.push(myCard);
+        });
+
+        return newArr;
+    }
+
+    //j'affiche les cartes dans chaque zone joueur 
+    function zonePlayer(gameZone, typePlayer) {
+        var player = new Player(typePlayer, 'bob')
+        var arrCards = renderCard(player);
+
+        var boardGame = gameZone === 'top' && !player.isCardVisible ? $('#color-game_board--zone-player-2')[0] :
+            $('#color-game_board--zone-player-1')[0];
+        var card = document.createElement("div");
+        card.className = 'card-game-container';
+
+        arrCards.map(function(item) {
+            boardGame.innerHTML += item;
+
+        });
+
+        player.arrayCard = arrCards; //7 cartes
+        return player
+    }
+
+    window.onload = function() {
+
+        console.log('j\'affiche 7 cartes random à l\'init', getRandomCard());
+        console.log('je suis le joueur fictif et mes cartes sont en haut', new zonePlayer('top', false));
+        console.log('je suis le joueur fictif et mes cartes sont en bas', new zonePlayer('bottom', true));
+
+    }
 }
-
-//je veux associer la value de l'array à une carte
-function showCard() {
-    var cardsArray = getRandomCard();
-    var newArr = [];
-    cardsArray.forEach(function(card) {
-        var numberCard = card.split('');
-        var cardColor = card.slice(1);
-        var toto = '<div class="card card-' + cardColor + '" >' + '<span class="card-number">' + numberCard[0] + '</span>' + '</div>';
-        newArr.push(toto);
-    });
-
-    return newArr;
-}
-
-//j'affiche les cartes dans chaque zone joueur 
-function zonePlayer(gameZone) {
-    var boardGame = gameZone === 'top' ? document.getElementById('color-game_board--zone-player-1') :
-        document.getElementById('color-game_board--zone-player-2');
-    var card = document.createElement("div");
-    card.className = 'card-game-container';
-
-    var arrCards = showCard();
-    arrCards.map(function(item) {
-        boardGame.innerHTML += item;
-    })
-
-}
-
-//quand le joueur réel clique sur une carte, celle-ci s'affiche dans la zone "carte à jouer"
-//
-window.onload = function() {
-
-
-    console.log('j\'affiche 7 cartes random à l\'init', getRandomCard());
-    console.log('je suis le joueur fictif et mes cartes sont en bas', realPlayer = new zonePlayer('bottom'));
-    console.log('je suis le joueur fictif et mes cartes sont en haut', fakePlayer = new zonePlayer('top'));
-
-
-
-}
+CardGame();

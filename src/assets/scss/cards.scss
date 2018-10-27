@@ -7,7 +7,7 @@
     float: left;
     margin-right: 10px;
     width: 150px;
-    height: 160px;
+    height: 120px;
     border-radius: 10px;
     background: #fff;
     box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
@@ -26,6 +26,9 @@
     }
     &-VIOLET {
         color: #8C9EC8;
+    }
+    &-BACK {
+        color: #000;
     }
     &-number {
         color: inherit;
