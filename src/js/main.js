@@ -1,5 +1,6 @@
 var Player = require('./player.js');
-//var renderCard = require('./utils/render-card.js');
+var Card = require('./card.js');
+
 
 var CardGame = function() {
 
@@ -20,6 +21,14 @@ var CardGame = function() {
         return cards;
     }
 
+    function cardClick() {
+
+        alert('toto')
+
+
+
+        //je click sur un element carte
+    }
     //je veux associer la value de l'array 'cardValue' à une carte pour afficher le CSS
     function renderCard(player) {
         var cardsArray = getRandomCard();
@@ -32,8 +41,11 @@ var CardGame = function() {
 
             var myCard = null;
 
+            var card = new Card(cardColor, numberCard[0]);
+
             if (player.isCardVisible) {
-                myCard = '<div class="card card-' + cardColor + '" >' + '<span class="card-number">' + numberCard[0] + '</span>' + '</div>';
+                myCard = '<div onclick="cardClick()" class="card card-' + card.color + '" id="player1">' + '<span class="card-number">' + card.number + '</span>' + '</div>';
+
             } else {
                 myCard = '<div class="card card-BACK"><span class="card-number">B</span></div>';
             }
@@ -43,30 +55,34 @@ var CardGame = function() {
         return newArr;
     }
 
+
     //j'affiche les cartes dans chaque zone joueur 
     function zonePlayer(gameZone, typePlayer) {
         var player = new Player(typePlayer, 'bob')
         var arrCards = renderCard(player);
 
-        var boardGame = gameZone === 'top' && !player.isCardVisible ? $('#color-game_board--zone-player-2')[0] :
-            $('#color-game_board--zone-player-1')[0];
+        var boardGame = gameZone === 'top' && !player.isCardVisible ? $('.color-game_board--zone-player-2')[0] :
+            $('.color-game_board--zone-player-1')[0];
         var card = document.createElement("div");
         card.className = 'card-game-container';
 
         arrCards.map(function(item) {
-            boardGame.innerHTML += item;
 
+            boardGame.innerHTML += item;
         });
 
         player.arrayCard = arrCards; //7 cartes
+
         return player
     }
+
 
     window.onload = function() {
 
         console.log('j\'affiche 7 cartes random à l\'init', getRandomCard());
         console.log('je suis le joueur fictif et mes cartes sont en haut', new zonePlayer('top', false));
         console.log('je suis le joueur fictif et mes cartes sont en bas', new zonePlayer('bottom', true));
+
 
     }
 }
