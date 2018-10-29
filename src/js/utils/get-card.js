@@ -1,5 +1,5 @@
 //function qui génère des cartes
-var cardValue = [
+/*var cardValue = [
     '0ROSE', '1ROSE', '2ROSE', '3ROSE', '4ROSE', '5ROSE', '6ROSE', '7ROSE', '8ROSE', '9ROSE',
     '0ROUGE', '1ROUGE', '2ROUGE', '3ROUGE', '4ROUGE', '5ROUGE', '6ROUGE', '7ROUGE', '8ROUGE', '9ROUGE',
     '0BLEU', '1BLEU', '2BLEU', '3BLEU', '4BLEU', '5BLEU', '6BLEU', '7BLEU', '8BLEU', '9BLEU',
@@ -15,3 +15,26 @@ function getCard() {
 }
 
 module.exports = getCard;
+*/
+
+//fonction qui génère dans un tableau mes 76 cartes avec leurs exceptions
+function generateCard() {
+    var colorCard = ['ROSE', 'ROUGE', 'BLEU', 'VIOLET'];
+    var arrCard = [];
+
+    colorCard.map(function(color) {
+        var arr = new Array(9);
+        for (var i = 0; i < arr.length + 1; i++) {
+            var card = (i + color);
+            //var result = i === 0 ? arrCard.push(card) : arrCard.push(card, card);
+            if (i === 0) {
+                arrCard.push(card)
+            } else {
+                arrCard.push(card, card)
+            }
+        }
+    })
+    return arrCard;
+}
+
+module.exports = generateCard;

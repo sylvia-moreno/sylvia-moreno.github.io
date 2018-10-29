@@ -1,150 +1,89 @@
-var Player = require('./player.js');
-var Card = require('./card.js');
-var getCard = require('./utils/get-card.js');
+var cardsGame = require('./utils/get-card.js');
 
-//je click sur un element carte
-function cardClick(e) {
+const state = {
+    player1: {
+        cards: []
+    },
 
-    // alert('toto')
-    var cardNumber = e.path[0].textContent;
-    var cardColor = e.currentTarget.classList[1].slice(5);
-    player.play(cardNumber, cardColor);
-    // je dois passer à player.play :
-    // l'element cliqué, son numéro, sa couleur 
+    player2: {
+        cards: []
+    },
 
+    board: {
+        cards: []
+    },
+
+    pioche: {
+        cards: []
+    },
+
+    turn: 'player1',
 }
 
-
-
-//couleurs des cartes à jouer
-/*var cardValue = [
-    '0ROSE', '1ROSE', '2ROSE', '3ROSE', '4ROSE', '5ROSE', '6ROSE', '7ROSE', '8ROSE', '9ROSE',
-    '0ROUGE', '1ROUGE', '2ROUGE', '3ROUGE', '4ROUGE', '5ROUGE', '6ROUGE', '7ROUGE', '8ROUGE', '9ROUGE',
-    '0BLEU', '1BLEU', '2BLEU', '3BLEU', '4BLEU', '5BLEU', '6BLEU', '7BLEU', '8BLEU', '9BLEU',
-    '0VIOLET', '1VIOLET', '2VIOLET', '3VIOLET', '4VIOLET', '5VIOLET', '6VIOLET', '7VIOLET', '8VIOLET', '9VIOLET'
-];*/
-
-//fonction qui génère dans un tableau mes 76 cartes avec leurs exceptions
-function generateCard() {
-    var colorCard = ['ROSE', 'ROUGE', 'BLEU', 'VIOLET'];
-    var arrCard = [];
-
-    colorCard.map(function(color) {
-        var arr = new Array(9);
-        for (var i = 0; i < arr.length + 1; i++) {
-            var card = (i + color);
-            //var result = i === 0 ? arrCard.push(card) : arrCard.push(card, card);
-            if (i === 0) {
-                arrCard.push(card)
-            } else {
-                arrCard.push(card, card)
-            }
-        }
-    })
-    return arrCard;
-}
-
-
-//function qui affiche 7 cartes random à l'init 
-function getRandomCard() {
-    var cards = [];
-    var cardValue = generateCard();
-    for (i = 0; i < 7; i++) {
-        cards.push(cardValue[Math.floor(Math.random() * cardValue.length)])
+function shuffle(cards) {
+    var arrCards = [];
+    for (i = 0; i < cards.length; i++) {
+        arrCards.push(cards[Math.floor(Math.random() * cards.length)])
     }
-    return cards;
+    console.log('voici la liste des ', arrCards.length, ' cartes mélangées : ', arrCards);
+    //je met à jour la liste de mes cartes qui se trouvent sur la table
+    state.board.cards.push(arrCards);
+    return arrCards;
 }
 
+function removeCard(playerCard, card) {
 
-//je veux associer la value de l'array 'cardValue' à une carte pour afficher le CSS
-function renderCard(player) {
-    var cardsArray = getRandomCard();
-    player.cardsArray = cardsArray;
+}
 
-    var newArr = [];
-    var index = 0;
-    cardsArray.forEach(function(card) {
-        var numberCard = card.split('');
-        var cardColor = card.slice(1);
-        index++
+function distributeCards(cardsNumbers, player) {
+    //var cards = state.board.cards[0];
+    var arrCards = [];
+    var boardCards = state.board.cards[0];
+    for (i = 0; i < cardsNumbers; i++) {
+        arrCards.push(boardCards[Math.floor(Math.random() * boardCards.length)])
+    }
+    console.log('le ', player, ' à ', arrCards.length, ' cartes. Voici la liste: ', arrCards);
 
-        var myCard = null;
-
-        var card = new Card(cardColor, numberCard[0]);
-
-        if (player.isCardVisible) {
-            myCard = '<div class="card card-' + card.color + '" id="player1' + index + '">' + '<span class="card-number">' + card.number + '</span>' + '</div>';
-        } else {
-            myCard = '<div class="card card-BACK"><span class="card-number">B</span></div>';
-        }
-        newArr.push(myCard);
+    // je met à jour la liste de mes cartes qui se trouvent sur la table
+    // en y supprimant les cartes distribuées au joueur 
+    boardCards.forEach(function(cardBoard) {
+        arrCards.forEach(function(card) {
+            if (cardBoard === card) {
+                boardCards.splice(card, 1)
+            }
+        })
     });
 
-    return newArr;
-}
-
-
-//j'affiche les cartes dans chaque zone joueur 
-function zonePlayer(gameZone, typePlayer) {
-    var player = new Player(typePlayer, 'bob')
-    var arrCards = renderCard(player);
-
-    var boardGame = gameZone === 'top' && !player.isCardVisible ? $('.color-game_board--zone-player-2')[0] :
-        $('.color-game_board--zone-player-1')[0];
-    var card = document.createElement("div");
-    card.className = 'card-game-container';
-
-    var index = 0;
-    arrCards.map(function(item) {
-        index++
-        boardGame.innerHTML += item;
-
-        if (typePlayer) {
-            //il ne s'ajoute qu'au dernier élément pourquoi ???
-            document.getElementById("player1" + index).addEventListener("click", cardClick, false);
-        }
-    });
-
-    player.arrayCard = arrCards; //7 cartes
-
-    return player
-}
-
-//affiche la zone de la pioche
-function zonePickaxe() {
-    var arrCards = new getCard();
-    var index = 0;
-    var pickaxe = $('.pickaxe')[0];
-    var newArr = [];
-
-    arrCards.forEach(function(card) {
-        var numberCard = card.split('');
-        var cardColor = card.slice(1);
-        var myCard = null;
-        var card = new Card(cardColor, numberCard[0]);
-        index++
-
-        myCard = '<div class="card card-pickaxe card-' + card.color + '" id="card-pickaxe' + index + '">' + '<span class="card-number">' + card.number + '</span>' + '</div>';
-        newArr.push(myCard);
-    });
-
-    newArr.map(function(card) {
-        pickaxe.innerHTML += card;
-    });
+    //je met à jour le tableau des cartes du joueur 
+    state[player].cards.push(arrCards);
+    return arrCards;
 
 }
 
-function showFirstCard() {
-    var firstPickaxeCard = $('.card-pickaxe:first-child').detach();
-    $('.card-played').append(firstPickaxeCard);
+if ('toutuntasdetests') {
+    //playCard('player1', 2)
 }
+
+
+/*function playCard(player, card) {
+    removeCard(state[player].cards, card)
+    state.board.cards.push(card)
+}*/
 
 window.onload = function() {
-    console.log('j\'affiche 7 cartes random à l\'init', getRandomCard());
-    console.log('je suis le joueur fictif et mes cartes sont en haut', new zonePlayer('top', false));
-    console.log('je suis le joueur fictif et mes cartes sont en bas', new zonePlayer('bottom', true));
-    console.log('je suis la pioche', zonePickaxe())
+    //je mélange mes 76 cartes 
+    shuffle(cardsGame());
 
-    //à l'init j'affiche une carte random dans la zone 'carte à jouer' pour le début de jeu
-    showFirstCard()
+    //je distribue 7 cartes au joueur 1
+    distributeCards(7, "player1");
+    //état de mon store 
+    console.log('il me reste ', state.board.cards[0].length, ' après la distribution du player 1 sur la table à jouer');
+
+    //je distribue 7 cartes au joueur 2
+    distributeCards(7, "player2");
+    //état de mon store 
+    console.log('il me reste ', state.board.cards[0].length, ' après la distribution du player2 sur la table à jouer');
+
+    //état de mon store 
+    console.log('il me reste ', state.board.cards[0].length, 'sur la table à jouer');
 }
