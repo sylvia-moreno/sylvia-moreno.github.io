@@ -15,6 +15,11 @@
     justify-content: center;
     align-items: center;
     border: 15px solid;
+    //Pickaxe
+    &-pickaxe {
+        float: none;
+        position: absolute;
+    }
     &-ROSE {
         color: #FAB6C4;
     }

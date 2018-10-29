@@ -4,6 +4,7 @@ function Card(color, number) {
     this.color = color;
     this.number = number;
     //this.isSelected = isSelected;
+
 }
 
 module.exports = Card;

@@ -3,6 +3,7 @@ function Player(isCardVisible, name) {
     this.name = name;
     this.arrayCard = null;
     this.play = function(cardNumber, cardColor) {
+
         //le joueur à le droit de poser une carte
 
         if (cardNumber === cardNumberCardPlayed) {
