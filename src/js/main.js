@@ -1,4 +1,7 @@
 var cardsGame = require('./utils/get-card.js');
+var player1ZoneHTML = $("div[data-player='player1']")[0];
+var player2ZoneHTML = $("div[data-player='player2']")[0];
+var playedLocation = $(".card-played")
 
 const state = {
     player1: {
@@ -17,7 +20,7 @@ const state = {
         cards: []
     },
 
-    turn: 'player1',
+    turn: '',
 }
 
 
@@ -95,16 +98,46 @@ function initCardOnBoard(numberCard) {
     return newArr;
 }
 
+//fonction qui affiches les cartes dans l'ihm
+function renderCards(cards, locationHTML) {
+    var newArr = [];
+    var index = 0;
+    var newCard = null;
+    cards.forEach(function(card) {
+        var numberCard = card.split('', 1) + '';
+        var cardColor = card.slice(1);
+        index++;
+        newCard = '<a href="#"><div class="card card-' + cardColor + '" id="card-' + index + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></a>';
+        newArr.push(newCard)
+    })
+
+    newArr.map(function(item) {
+        index++;
+        locationHTML.innerHTML += item;
+    })
+}
+
+
 function initCardPioche(cards) {
+    renderCards(cards, )
     state.pioche.cards = cards;
     return cards;
 }
-
 
 /* -------- */
 /*
 Game Tour function
 */
+/*  
+            playCard(player, state[player].cards)
+            function playCard(player, card) {
+                removeCard(state[player].cards, card) //je supprime la carte cliquée du tas de cartes du joueur 
+                state.board.cards.push(card) // je la rajoute au tas de cartes du board
+                updatePioche()
+                updateCardBoard()
+            }
+*/
+
 function gameTour(player) {
     //je met à jour le state du joueur à qui c'est le tour
     state.turn = player;
@@ -118,15 +151,9 @@ function gameTour(player) {
 
         //je vérifie un tas de règle avant de décider si je peux jouer 
         // if (...) => 
-        /*  
-            playCard(player, state[player].cards)
-            function playCard(player, card) {
-                removeCard(state[player].cards, card) //je supprime la carte cliquée du tas de cartes du joueur 
-                state.board.cards.push(card) // je la rajoute au tas de cartes du board
-                updatePioche()
-                updateCardBoard()
-            }
-        */
+        //playCard('player1', 2)
+        //playCard(player, state[player].cards)
+
         //je ne peux pas jouer  
         // else 
         /*
@@ -150,7 +177,8 @@ window.onload = function() {
 
     //je distribue 7 cartes au joueur 1
     distributeCards(7, "player1");
-    //renderCards(cards, locationHTML);
+    //j'affiches mes cartes sur l'ihm
+    renderCards(state.player1.cards[0], player1ZoneHTML);
     //état de mon store 
     console.log('il me reste ', state.board.cards[0].length, ' après la distribution du player 1 sur la table à jouer');
 
