@@ -17,6 +17,11 @@
       border: 1px solid green; }
     #color-game_board--zone-player-2 {
       border: 1px solid red; }
+  #color-game_board button {
+    border: 0;
+    background: none;
+    padding: 0;
+    cursor: pointer; }
 
 .card-game {
   width: 100px; }
@@ -37,6 +42,8 @@
   .card-pickaxe {
     float: none;
     position: absolute; }
+  .card-played {
+    position: relative; }
   .card-ROSE {
     color: #FAB6C4; }
   .card-ROUGE {
@@ -52,7 +59,7 @@
     font-size: 50px; }
 
 .zone-player-cards {
-  justify-content: space-around;
+  justify-content: space-evenly;
   display: flex; }
 
 body {

@@ -20,6 +20,13 @@
         float: none;
         position: absolute;
     }
+    //Tas à jouer
+    &-played {
+        position: relative;
+        a {
+            //position: absolute;
+        }
+    }
     &-ROSE {
         color: #FAB6C4;
     }

@@ -1,20 +1,15 @@
-var generateCard = require('./utils/get-card.js');
-var Player = require('./player.js');
+var state = require('./utils/state');
+var generateCard = require('./utils/get-card');
+var updateStateCardBoard = require('./utils/update-state-card');
+var BoardView = require("./board");
+var Player = require('./player');
 
 var player1ZoneHTML = $('div[data-player="player1"]')[0];
 var player2ZoneHTML = $('div[data-player="player2"]')[0];
 var putCardArea = $('.card-played')[0];
 var pickaxe = $('.pickaxe')[0];
 
-const state = {
-    players: [],
 
-    board: {
-        cards: [] //cartes totales de mon jeu
-    },
-
-    turn: '',
-}
 
 
 
@@ -116,7 +111,7 @@ function renderCards(players) {
             var numberCard = card.split('', 1) + '';
             var cardColor = card.slice(1);
             index++;
-            newCard = '<a href="#"><div class="card card-' + cardColor + '" id="card-' + index + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></a>';
+            newCard = '<button role="button"><div class="card card-' + cardColor + '" id="card-' + index + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></button>';
             document.getElementById(player.id).innerHTML += newCard;
         })
     })
@@ -128,12 +123,12 @@ function renderCardInitGame(card) {
     var numberCard = card[0].split('', 1) + '';
     var cardColor = card[0].slice(1);
     var index = 0;
-    var startCard = '<a href="#"><div class="card card-' + cardColor + '" id="card-' + index++ + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></a>';
+    var startCard = '<button role="button"><div class="card card-played-board card-' + cardColor + '" id="card-' + index++ + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></button>';
     putCardArea.innerHTML += startCard;
 
 }
 
-//fonction pour avoir la pioche
+//fonction pour avoir la pioche ihm
 function renderCardsPioche(cards) {
     var index = 0;
     var newCard = null;
@@ -141,8 +136,8 @@ function renderCardsPioche(cards) {
         var numberCard = card.split('', 1) + '';
         var cardColor = card.slice(1);
         index++;
-        newCard = '<a href="#"><div class="card-pickaxe card-' + cardColor + '" id="card-' + index + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></a>';
-        document.getElementsByClassName(pickaxe).innerHTML += newCard;
+        newCard = '<button role="button"><div class="card card-pickaxe card-' + cardColor + '" id="card-' + index + '">' + '<span class="card-number">' + numberCard + '</span>' + '</div></button>';
+        pickaxe.innerHTML += newCard;
     })
 }
 
@@ -161,29 +156,41 @@ Game Tour function
 */
 
 function gameTour(player) {
+    //je saisi à qui c'est tour
+    var currentPlayer = null;
+    var currentPlayerCards = null;
+    player.find(function(p) {
+        if (p.turn) {
+            currentPlayer = p.name
+            currentPlayerCards = p.cards;
+        };
+    })
+    console.log('le joueur qui joue est le ', currentPlayer);
     //je met à jour le state du joueur à qui c'est le tour
-    state.turn = player;
+    state.turn = currentPlayer;
 
-    //je place un event listener sur la div parent des cartes
-    $('.zone-player-bottom').addEventListener('click', cardClick, false);
+    var boardGame = new BoardView();
 
-    function cardClick(e) {
-        var element = e.target;
-        //placer un data-attribut sur chaque carte générer
+    //je place un event listener sur la div parent des cartes du joueur1 réel
+    //qui appel la fonction qui check les règles du jeu 
+    var cardClick = function(e) {
+        boardGame.cardClick(e.target, currentPlayer, currentPlayerCards);
 
-        //je vérifie un tas de règle avant de décider si je peux jouer 
-        // if (...) => 
-        //playCard('player1', 2)
-        //playCard(player, state[player].cards)
 
-        //je ne peux pas jouer  
-        // else 
-        /*
-            function cannotPlay(player, card) {
-                
-            }
-        */
+
+        //c'est le tour de l'autre joueur
+        player.find(function(p) {
+            if (!p.turn) {
+                currentPlayer = p.name
+                p.turn = true;
+                debugger
+                currentPlayerCards = p.cards;
+            };
+        });
+
+
     }
+    boardGame.zoneCardRealPlayer.addEventListener('click', cardClick, true);
 }
 
 if ('toutuntasdetests') {
@@ -209,11 +216,6 @@ window.onload = function() {
     //j'init le tas de cartes de la pioche
     renderCardsPioche(state.board.cards[0]);
 
-    //console.log('j\'ai ', initCardOnBoard(1).length, ' carte dans la pile "cartes à jouer" ');
-    //état de mon store 
-    //console.log('il me reste ', state.board.cards[0].length, ' cartes sur la table à jouer');
-
-    //j'init la pile de cartes de la pioche = reste des cartes du board
-    //initPutCardArea(state.board.cards[0][0]);
-    //console.log('j\'ai ', initCardPioche(state.board.cards[0].length), ' de cartes dans la pioche')
+    //au tour du joueur 1
+    gameTour(state.players)
 }

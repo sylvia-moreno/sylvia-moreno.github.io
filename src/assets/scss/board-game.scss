@@ -20,4 +20,10 @@
             border: 1px solid red;
         }
     }
+    button {
+        border: 0;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+    }
 }
