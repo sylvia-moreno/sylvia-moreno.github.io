@@ -18,14 +18,17 @@ module.exports = getCard;
 */
 
 //fonction qui génère dans un tableau mes 76 cartes avec leurs exceptions
-function generateCard() {
+var Card = require('../card');
+
+function getCard() {
     var colorCard = ['ROSE', 'ROUGE', 'BLEU', 'VIOLET'];
     var arrCard = [];
-
+    var index = 0;
     colorCard.map(function(color) {
         var arr = new Array(9);
         for (var i = 0; i < arr.length + 1; i++) {
-            var card = (i + color);
+            //var card = (i + color);
+            var card = new Card(color, i, index++);
             //var result = i === 0 ? arrCard.push(card) : arrCard.push(card, card);
             if (i === 0) {
                 arrCard.push(card)
@@ -33,8 +36,8 @@ function generateCard() {
                 arrCard.push(card, card)
             }
         }
-    })
+    });
     return arrCard;
 }
 
-module.exports = generateCard;
+module.exports = getCard;
