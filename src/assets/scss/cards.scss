@@ -51,10 +51,12 @@
 
 .card-gamme {
     .card {
-        width: 200px;
-        height: 300px;
+        width: 150px;
+        height: 200px;
         border: 10px solid #FFF;
         font-family: 'Fjalla One', sans-serif;
+        cursor: pointer;
+        transition: transform 0.3s;
         //--Chiffre haut gauche
         &_top {
             transform: skew(-11.25deg);
@@ -64,7 +66,7 @@
         }
         &_tabs {
             height: 70px;
-            font-size: 50px;
+            font-size: 30px;
             color: #FFF;
             text-shadow: 1px 1px #000;
             margin: 0 5px;
@@ -75,12 +77,12 @@
         //--Chiffre milieu
         &_centre {
             overflow: hidden;
-            font-size: 150px;
-            height: 210px;
-            width: 150px;
+            font-size: 80px;
+            height: 120px;
+            width: 88px;
             background-color: white;
-            margin-top: -35px;
-            margin-bottom: -35px;
+            margin-top: -32px;
+            margin-bottom: -36px;
             border-radius: 100%;
             text-shadow: 5px 5px #000;
             transform: skew(-11.25deg);
@@ -116,6 +118,9 @@
         &.green {
             background-color: green;
             color: green;
+        }
+        &:hover {
+            transform: translate(0px, -10px);
         }
     }
 }

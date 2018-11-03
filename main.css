@@ -26,6 +26,13 @@
     padding: 0;
     cursor: pointer; }
 
+.game-board {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: inherit;
+  height: inherit; }
+
 .game-color-wrapper {
   border: 23px solid white; }
 
@@ -58,6 +65,8 @@
       border-left: 1px dotted #b4e1d9;
       border-right: 1px dotted #b4e1d9; }
       .game-wrapper .table-wrapper .table-surface .table {
+        width: 100%;
+        height: 98%;
         transform-style: preserve-3d;
         outline: solid 1px transparent;
         margin: 0px auto 0px auto;
@@ -166,10 +175,12 @@
     font-size: 50px; }
 
 .card-gamme .card {
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 200px;
   border: 10px solid #FFF;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Fjalla One', sans-serif;
+  cursor: pointer;
+  transition: transform 0.3s; }
   .card-gamme .card_top {
     transform: skew(-11.25deg);
     position: absolute;
@@ -177,7 +188,7 @@
     left: 0; }
   .card-gamme .card_tabs {
     height: 70px;
-    font-size: 50px;
+    font-size: 30px;
     color: #FFF;
     text-shadow: 1px 1px #000;
     margin: 0 5px; }
@@ -185,12 +196,12 @@
     text-align: left; }
   .card-gamme .card_centre {
     overflow: hidden;
-    font-size: 150px;
-    height: 210px;
-    width: 150px;
+    font-size: 80px;
+    height: 120px;
+    width: 88px;
     background-color: white;
-    margin-top: -35px;
-    margin-bottom: -35px;
+    margin-top: -32px;
+    margin-bottom: -36px;
     border-radius: 100%;
     text-shadow: 5px 5px #000;
     transform: skew(-11.25deg); }
@@ -217,13 +228,12 @@
   .card-gamme .card.green {
     background-color: green;
     color: green; }
+  .card-gamme .card:hover {
+    transform: translate(0px, -10px); }
 
 .zone-player-cards {
   justify-content: space-evenly;
   display: flex; }
-
-.game-zone-cards-player {
-  background: red; }
 
 body {
   margin: 0;

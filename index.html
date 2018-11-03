@@ -27,14 +27,19 @@
                 <p class="game-player-name game-player-name--bot">Player 2</p>
                 <div class="table-surface">
                     <div class="table">
-                        <div id="game-board">
+                        <div class="game-board">
                             <!--/ Zone de jeu joueur virtuel /-->
                             <div class="game-zone-cards-player" data-player="player2">
-                                <button class="card"></button>
 
                                 <div class="card-gamme">
                                     <!--/ Inutile à retire 'card-gamme'  /-->
                                     <button role="button" class="card red"> 
+                                        <div class="card_tabs card_top text-left">1</div>
+                                        <div class="card_centre text-center center-block">1</div>
+                                        <div class="card_tabs card_bottom text-left">1</div>
+                                    </button>
+                                    <!--/ Inutile à retire 'card-gamme'  /-->
+                                    <button role="button" class="card green"> 
                                         <div class="card_tabs card_top text-left">1</div>
                                         <div class="card_centre text-center center-block">1</div>
                                         <div class="card_tabs card_bottom text-left">1</div>
@@ -45,13 +50,39 @@
 
                             <!--/ Zone de jeu pioche & carte jouée /-->
                             <div class="game-zone-cards-center">
-                                <div id="pickaxe"></div>
-                                <div id="card-played"></div>
+                                <div id="pickaxe" class="card-gamme">
+                                    <button role="button" class="card green"> 
+                                        <div class="card_tabs card_top text-left">1</div>
+                                        <div class="card_centre text-center center-block">1</div>
+                                        <div class="card_tabs card_bottom text-left">1</div>
+                                    </button>
+                                </div>
+                                <div id="card-played" class="card-gamme">
+                                    <button role="button" class="card green"> 
+                                        <div class="card_tabs card_top text-left">1</div>
+                                        <div class="card_centre text-center center-block">1</div>
+                                        <div class="card_tabs card_bottom text-left">1</div>
+                                    </button>
+                                </div>
                             </div>
 
                             <!--/ Zone de jeu joueur réel /-->
                             <div class="game-zone-cards-player" data-player="player1">
-                                <button class="card"></button>
+                                <div class="card-gamme">
+
+                                    <!--/ Inutile à retire 'card-gamme'  /-->
+                                    <button role="button" class="card red"> 
+                                            <div class="card_tabs card_top text-left">1</div>
+                                            <div class="card_centre text-center center-block">1</div>
+                                            <div class="card_tabs card_bottom text-left">1</div>
+                                        </button>
+                                    <!--/ Inutile à retire 'card-gamme'  /-->
+                                    <button role="button" class="card green"> 
+                                            <div class="card_tabs card_top text-left">1</div>
+                                            <div class="card_centre text-center center-block">1</div>
+                                            <div class="card_tabs card_bottom text-left">1</div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
