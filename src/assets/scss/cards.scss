@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 .card-game {
     width: 100px;
 }
@@ -45,5 +46,76 @@
     &-number {
         color: inherit;
         font-size: 50px;
+    }
+}
+
+.card-gamme {
+    .card {
+        width: 200px;
+        height: 300px;
+        border: 10px solid #FFF;
+        font-family: 'Fjalla One', sans-serif;
+        //--Chiffre haut gauche
+        &_top {
+            transform: skew(-11.25deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        &_tabs {
+            height: 70px;
+            font-size: 50px;
+            color: #FFF;
+            text-shadow: 1px 1px #000;
+            margin: 0 5px;
+        }
+        .text-left {
+            text-align: left;
+        }
+        //--Chiffre milieu
+        &_centre {
+            overflow: hidden;
+            font-size: 150px;
+            height: 210px;
+            width: 150px;
+            background-color: white;
+            margin-top: -35px;
+            margin-bottom: -35px;
+            border-radius: 100%;
+            text-shadow: 5px 5px #000;
+            transform: skew(-11.25deg);
+        }
+        .center-block {
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        //--Chiffre bas droite
+        &_bottom {
+            transform: skew(-11.25deg) rotate(180deg);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+        .text-left {
+            text-align: left;
+        }
+        //--Couleurs
+        &.red {
+            background-color: #F00;
+            color: #F00;
+        }
+        &.yellow {
+            background-color: yellow;
+            color: yellow;
+        }
+        &.blue {
+            background-color: blue;
+            color: blue;
+        }
+        &.green {
+            background-color: green;
+            color: green;
+        }
     }
 }
