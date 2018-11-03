@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=VT323");
 #color-game_board {
   background: #FFEFEE;
   width: 800px;
@@ -46,7 +47,11 @@
       position: absolute;
       height: 100%;
       bottom: 0;
-      width: 100%; }
+      width: 100%;
+      background: url("./src/assets/img/grass.png");
+      border-top: 3px dotted #6faa61;
+      border-left: 1px dotted #b4e1d9;
+      border-right: 1px dotted #b4e1d9; }
       .game-wrapper .table-wrapper .table-surface .table {
         transform-style: preserve-3d;
         outline: solid 1px transparent;
@@ -58,7 +63,6 @@
         position: relative;
         white-space: nowrap; }
   .game-wrapper .table-edge {
-    width: 100%;
     margin: 0 auto 10px auto;
     height: 29px;
     transform: rotateX(-51deg);
@@ -66,18 +70,37 @@
     z-index: 2;
     position: absolute;
     bottom: -64px;
-    border-top: 55px solid #ac741c;
+    border-top: 55px solid #59b344;
     border-left: 18px solid transparent;
     border-right: 18px solid transparent;
     height: 0;
-    width: 96%;
-    border-bottom: transparent; }
+    width: 865px;
+    border-bottom: transparent;
+    background: url("./src/assets/img/ground.png"); }
+    .game-wrapper .table-edge:before {
+      content: '';
+      border-bottom: 6px dotted #6faa61;
+      position: absolute;
+      width: 897px;
+      height: 0px;
+      left: -16px;
+      top: -58px; }
 
 .game-player-name {
   z-index: 1000;
   position: absolute;
   font-size: 54px;
-  left: 40%; }
+  left: 40%;
+  font-family: 'VT323', monospace;
+  display: inline-block;
+  box-sizing: content-box;
+  padding: 10px;
+  overflow: hidden;
+  border: none;
+  color: yellow;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-shadow: 4px 4px 0 red; }
   .game-player-name--bot {
     top: -172px; }
   .game-player-name--real {
