@@ -12,19 +12,50 @@
 <body>
     <div class="color-game-wrapper">
         <h1 class="color-game_title">4colors game</h1>
-        <div class="color-game">
-            <div id="color-game_board">
-                <div class="zone-player zone-player-top color-game_board--zone color-game_board--zone-player-2" id="player2" data-player="player2">
-                    <p>Joueur virtuel</p>
-                </div>
-                <div class="zone-player-cards">
-                    <div class="pickaxe">
+        <div class="game-wrapper">
+            <div class="table-wrapper">
+                <p class="game-player-name game-player-name--bot">Player 2</p>
+                <div class="table-surface">
+                    <div class="table">
+                        <div id="game-board">
+                            <!--/ Zone de jeu joueur virtuel /-->
+                            <div class="game-zone-cards-player" data-player="player2">
+                                <button class="card"></button>
+                            </div>
+
+                            <!--/ Zone de jeu pioche & carte jouée /-->
+                            <div class="game-zone-cards-center">
+                                <div id="pickaxe"></div>
+                                <div id="card-played"></div>
+                            </div>
+
+                            <!--/ Zone de jeu joueur réel /-->
+                            <div class="game-zone-cards-player" data-player="player1">
+                                <button class="card"></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-played">
-                    </div>
                 </div>
-                <div class="zone-player zone-player-bottom color-game_board--zone color-game_board--zone-player-1" id="player1" data-player="player1">
-                    <p>Joueur réel</p>
+                <div class="table-edge"></div>
+                <p class="game-player-name game-player-name--real">Player 1</p>
+            </div>
+
+
+
+            <div class="color-game">
+                <div id="color-game_board">
+                    <div class="zone-player zone-player-top color-game_board--zone color-game_board--zone-player-2" id="player2" data-player="player2">
+                        <p>Joueur virtuel</p>
+                    </div>
+                    <div class="zone-player-cards">
+                        <div class="pickaxe">
+                        </div>
+                        <div class="card-played">
+                        </div>
+                    </div>
+                    <div class="zone-player zone-player-bottom color-game_board--zone color-game_board--zone-player-1" id="player1" data-player="player1">
+                        <p>Joueur réel</p>
+                    </div>
                 </div>
             </div>
         </div>

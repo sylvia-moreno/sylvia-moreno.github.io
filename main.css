@@ -23,6 +23,66 @@
     padding: 0;
     cursor: pointer; }
 
+.game-wrapper {
+  transform: translate3d(0, 0, 0);
+  perspective: 400px;
+  text-align: center;
+  position: relative;
+  padding-top: 15px;
+  margin: -300px 0 50px 0; }
+  .game-wrapper .table-wrapper {
+    margin-top: 10px;
+    transform: rotateX(20deg);
+    height: 900px;
+    transform-origin: bottom;
+    z-index: 9999;
+    position: relative;
+    margin: 10px auto 0 auto;
+    width: 900px;
+    margin-bottom: 200px; }
+    .game-wrapper .table-wrapper .table-surface {
+      box-shadow: 0px 40px 10px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(#B3E061, #80a53e);
+      position: absolute;
+      height: 100%;
+      bottom: 0;
+      width: 100%; }
+      .game-wrapper .table-wrapper .table-surface .table {
+        transform-style: preserve-3d;
+        outline: solid 1px transparent;
+        margin: 0px auto 0px auto;
+        min-height: 142px;
+        padding: 15px 15px 22px 15px;
+        display: inline-block;
+        z-index: 999;
+        position: relative;
+        white-space: nowrap; }
+  .game-wrapper .table-edge {
+    width: 100%;
+    margin: 0 auto 10px auto;
+    height: 29px;
+    transform: rotateX(-51deg);
+    transform-origin: top;
+    z-index: 2;
+    position: absolute;
+    bottom: -64px;
+    border-top: 55px solid #ac741c;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    height: 0;
+    width: 96%;
+    border-bottom: transparent; }
+
+.game-player-name {
+  z-index: 1000;
+  position: absolute;
+  font-size: 54px;
+  left: 40%; }
+  .game-player-name--bot {
+    top: -172px; }
+  .game-player-name--real {
+    bottom: -163px; }
+
 .card-game {
   width: 100px; }
 
@@ -62,8 +122,13 @@
   justify-content: space-evenly;
   display: flex; }
 
+.game-zone-cards-player {
+  background: red; }
+
 body {
-  background-color: #2c3e50; }
+  background: #B4E1D9;
+  /*background: radial-gradient(ellipse at center, rgba(240,249,255,1) 0%,rgba(203,235,255,1) 25%,rgba(161,219,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#a1dbff',GradientType=1 );*/ }
 
 .color-game--title {
   font-size: 20px;
