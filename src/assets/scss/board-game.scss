@@ -29,76 +29,80 @@
     }
 }
 
-.game-wrapper {
-    transform: translate3d(0, 0, 0);
-    perspective: 400px;
-    text-align: center;
-    position: relative;
-    padding-top: 15px;
-    margin: -300px 0 50px 0;
-    .table-wrapper {
-        margin-top: 10px;
-        transform: rotateX(20deg);
-        height: 900px;
-        transform-origin: bottom;
-        z-index: 9999;
+.game {
+    &-color-wrapper {
+        border: 23px solid white;
+    }
+    &-wrapper {
+        transform: translate3d(0, 0, 0);
+        perspective: 400px;
+        text-align: center;
         position: relative;
-        margin: 10px auto 0 auto;
-        width: 900px;
-        margin-bottom: 200px;
-        .table-surface {
-            box-shadow: 0px 40px 10px rgba(0, 0, 0, .2);
-            background: linear-gradient(#B3E061, #80a53e);
+        padding-top: 15px;
+        margin: -300px 0 0px 0;
+        //--Table board
+        .table-wrapper {
+            margin-top: 10px;
+            transform: rotateX(20deg);
+            height: 900px;
+            transform-origin: bottom;
+            z-index: 9999;
+            position: relative;
+            margin: 10px auto 0 auto;
+            width: 900px;
+            margin-bottom: 200px;
+            .table-surface {
+                box-shadow: 0px 40px 10px rgba(0, 0, 0, .2);
+                background: linear-gradient(#B3E061, #80a53e);
+                position: absolute;
+                height: 100%;
+                bottom: 0;
+                width: 100%;
+                background: url('./src/assets/img/grass.png');
+                border-top: 3px dotted #6faa61;
+                border-left: 1px dotted #b4e1d9;
+                border-right: 1px dotted #b4e1d9;
+                .table {
+                    transform-style: preserve-3d;
+                    outline: solid 1px transparent;
+                    margin: 0px auto 0px auto;
+                    min-height: 142px;
+                    padding: 15px 15px 22px 15px;
+                    display: inline-block;
+                    z-index: 999;
+                    position: relative;
+                    white-space: nowrap;
+                }
+            }
+        }
+        .table-edge {
+            //width: 100%;
+            margin: 0 auto 10px auto;
+            height: 29px;
+            transform: rotateX(-51deg);
+            transform-origin: top;
+            z-index: 2;
             position: absolute;
-            height: 100%;
-            bottom: 0;
-            width: 100%;
-            background: url('./src/assets/img/grass.png');
-            border-top: 3px dotted #6faa61;
-            border-left: 1px dotted #b4e1d9;
-            border-right: 1px dotted #b4e1d9;
-            .table {
-                transform-style: preserve-3d;
-                outline: solid 1px transparent;
-                margin: 0px auto 0px auto;
-                min-height: 142px;
-                padding: 15px 15px 22px 15px;
-                display: inline-block;
-                z-index: 999;
-                position: relative;
-                white-space: nowrap;
+            bottom: -64px;
+            border-top: 55px solid #59b344;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            height: 0;
+            width: 865px;
+            border-bottom: transparent;
+            background: url('./src/assets/img/ground.png');
+            &:before {
+                content: '';
+                border-bottom: 6px dotted #6faa61;
+                position: absolute;
+                width: 897px;
+                height: 0px;
+                left: -16px;
+                top: -58px;
             }
         }
     }
-    .table-edge {
-        //width: 100%;
-        margin: 0 auto 10px auto;
-        height: 29px;
-        transform: rotateX(-51deg);
-        transform-origin: top;
-        z-index: 2;
-        position: absolute;
-        bottom: -64px;
-        border-top: 55px solid #59b344;
-        border-left: 18px solid transparent;
-        border-right: 18px solid transparent;
-        height: 0;
-        width: 865px;
-        border-bottom: transparent;
-        background: url('./src/assets/img/ground.png');
-        &:before {
-            content: '';
-            border-bottom: 6px dotted #6faa61;
-            position: absolute;
-            width: 897px;
-            height: 0px;
-            left: -16px;
-            top: -58px;
-        }
-    }
-}
-
-.game {
+    //--Player
     &-player-name {
         z-index: 1000;
         position: absolute;
@@ -119,6 +123,32 @@
         }
         &--real {
             bottom: -163px;
+        }
+        &.isTurn {
+            text-shadow: 4px 4px 0 rgba(255, 0, 0, 1);
+            animation: flash linear 1s infinite;
+            @-webkit-keyframes flash {
+                0% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: .1;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+            @keyframes flash {
+                0% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: .1;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
         }
     }
 }

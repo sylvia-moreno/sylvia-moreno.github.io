@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=VT323");
+@import url("https://fonts.googleapis.com/css?family=Anton");
 #color-game_board {
   background: #FFEFEE;
   width: 800px;
@@ -24,13 +25,16 @@
     padding: 0;
     cursor: pointer; }
 
+.game-color-wrapper {
+  border: 23px solid white; }
+
 .game-wrapper {
   transform: translate3d(0, 0, 0);
   perspective: 400px;
   text-align: center;
   position: relative;
   padding-top: 15px;
-  margin: -300px 0 50px 0; }
+  margin: -300px 0 0px 0; }
   .game-wrapper .table-wrapper {
     margin-top: 10px;
     transform: rotateX(20deg);
@@ -105,6 +109,25 @@
     top: -172px; }
   .game-player-name--real {
     bottom: -163px; }
+  .game-player-name.isTurn {
+    text-shadow: 4px 4px 0 red;
+    animation: flash linear 1s infinite; }
+
+@-webkit-keyframes flash {
+  0% {
+    opacity: 1; }
+  50% {
+    opacity: .1; }
+  100% {
+    opacity: 1; } }
+
+@keyframes flash {
+  0% {
+    opacity: 1; }
+  50% {
+    opacity: .1; }
+  100% {
+    opacity: 1; } }
 
 .card-game {
   width: 100px; }
@@ -149,6 +172,7 @@
   background: red; }
 
 body {
+  margin: 0;
   background: #B4E1D9;
   /*background: radial-gradient(ellipse at center, rgba(240,249,255,1) 0%,rgba(203,235,255,1) 25%,rgba(161,219,255,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#a1dbff',GradientType=1 );*/ }
@@ -156,3 +180,82 @@ body {
 .color-game--title {
   font-size: 20px;
   color: #fff; }
+
+header {
+  height: 20px;
+  background: #fff;
+  margin-bottom: 100px; }
+  header .logo {
+    display: block;
+    position: relative;
+    margin: 0px auto;
+    width: 100px;
+    height: 100px; }
+    header .logo h1 {
+      position: absolute;
+      margin: 0;
+      text-align: center;
+      z-index: 1;
+      position: absolute;
+      top: 31px;
+      width: 200px;
+      left: -53px;
+      color: black;
+      font-family: 'Anton', sans-serif; }
+    header .logo .box-1,
+    header .logo .box-2,
+    header .logo .box-3,
+    header .logo .box-4 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: all 0.5s cubic-bezier(0.75, -0.3, 0.31, 2); }
+    header .logo .box-1 {
+      background: #008000; }
+    header .logo .box-2 {
+      background: #0000ff; }
+    header .logo .box-3 {
+      background: #ff0000; }
+    header .logo .box-4 {
+      background: #ffff00; }
+    header .logo.open .box-1 {
+      transform: rotate(8deg) translateX(8%); }
+    header .logo.open .box-2 {
+      transform: rotate(4deg) translateX(4%); }
+    header .logo.open .box-3 {
+      transform: rotate(2deg) translateX(2%); }
+    header .logo.open:hover .box-1,
+    header .logo.open:hover .box-2,
+    header .logo.open:hover .box-3,
+    header .logo.open:hover .box-4 {
+      transition: all 0.3s ease;
+      transform: none; }
+
+footer {
+  background: #fff;
+  margin-top: 30px;
+  text-align: center; }
+  footer ul {
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 30px 0 20px 0; }
+    footer ul li {
+      padding: 0 110px;
+      position: relative; }
+      footer ul li span {
+        position: absolute;
+        z-index: 5;
+        display: block; }
+        footer ul li span a {
+          text-decoration: none;
+          color: inherit; }
+      footer ul li:after {
+        content: '';
+        position: absolute;
+        width: 27px;
+        height: 9px;
+        background: yellow;
+        z-index: 1;
+        left: 98px; }

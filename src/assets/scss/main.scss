@@ -1,7 +1,9 @@
 @import "board-game.scss";
 @import "cards.scss";
 @import "zone-played-cards.scss";
+@import url('https://fonts.googleapis.com/css?family=Anton');
 body {
+    margin: 0;
     background: #B4E1D9;
     /*background: radial-gradient(ellipse at center, rgba(240,249,255,1) 0%,rgba(203,235,255,1) 25%,rgba(161,219,255,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f9ff', endColorstr='#a1dbff',GradientType=1 );*/
@@ -10,4 +12,106 @@ body {
 .color-game--title {
     font-size: 20px;
     color: #fff;
+}
+
+header {
+    height: 20px;
+    background: #fff;
+    margin-bottom: 100px;
+    //--Logo 
+    .logo {
+        display: block;
+        position: relative;
+        margin: 0px auto;
+        width: 100px;
+        height: 100px;
+        h1 {
+            position: absolute;
+            margin: 0;
+            text-align: center;
+            z-index: 1;
+            position: absolute;
+            top: 31px;
+            width: 200px;
+            left: -53px;
+            color: black;
+            font-family: 'Anton', sans-serif;
+        }
+        .box-1,
+        .box-2,
+        .box-3,
+        .box-4 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 0.5s cubic-bezier(.75, -0.3, .31, 2);
+        }
+        .box-1 {
+            background: #008000;
+        }
+        .box-2 {
+            background: #0000ff;
+        }
+        .box-3 {
+            background: #ff0000;
+        }
+        .box-4 {
+            background: #ffff00;
+        }
+        &.open {
+            .box-1 {
+                transform: rotate( 8deg) translateX(8%);
+            }
+            .box-2 {
+                transform: rotate( 4deg) translateX(4%);
+            }
+            .box-3 {
+                transform: rotate( 2deg) translateX(2%);
+            }
+            &:hover {
+                .box-1,
+                .box-2,
+                .box-3,
+                .box-4 {
+                    transition: all 0.3s ease;
+                    transform: none;
+                }
+            }
+        }
+    }
+}
+
+footer {
+    background: #fff;
+    margin-top: 30px;
+    text-align: center;
+    ul {
+        margin: 0;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        padding: 30px 0 20px 0;
+        li {
+            padding: 0 110px;
+            position: relative;
+            span {
+                position: absolute;
+                z-index: 5;
+                display: block;
+                a {
+                    text-decoration: none;
+                    color: inherit;
+                }
+            }
+            &:after {
+                content: '';
+                position: absolute;
+                width: 27px;
+                height: 9px;
+                background: yellow;
+                z-index: 1;
+                left: 98px;
+            }
+        }
+    }
 }

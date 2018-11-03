@@ -180,6 +180,11 @@ function gameTour(player) {
 
 
 window.onload = function() {
+    //animation logo
+    setTimeout(function() {
+        document.querySelector('.logo').classList.add('open');
+    }, 500);
+
     //je mélange mes 76 cartes 
     initCardsBoard(getCard());
 
