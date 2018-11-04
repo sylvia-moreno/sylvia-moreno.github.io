@@ -21,7 +21,7 @@ module.exports = getCard;
 var Card = require('../card');
 
 function getCard() {
-    var colorCard = ['ROSE', 'ROUGE', 'BLEU', 'VIOLET'];
+    var colorCard = ['red', 'blue', 'green', 'yellow'];
     var arrCard = [];
     var index = 0;
     colorCard.map(function(color) {

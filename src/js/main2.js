@@ -1,165 +1,204 @@
-var Player = require('./player.js');
-var Card = require('./card.js');
-var getCard = require('./utils/get-card.js');
-var totalCardGame = generateCard().length;
+var state = require('./utils/state');
+var getCard = require('./utils/get-card');
+var updateStateCardBoard = require('./utils/update-state-card');
+var cardTemplate = require('./utils/card-template');
+
+var BoardView = require("./board");
+var Player = require('./player');
+
+var player1ZoneHTML = $('div[data-player="player1"]')[0];
+var player2ZoneHTML = $('div[data-player="player2"]')[0];
+var putCardArea = $('.card-played')[0];
+var pickaxe = $('.pickaxe')[0];
 
 
-var state = {
-    numberCard: totalCardGame,
-    player1,
-    player2,
-    pioche: 0,
-    tasJouer: 0;
-}
-
-
-//je click sur un element carte
-function cardClick(e) {
-    debugger
-    // alert('toto')
-    var cardNumber = e.path[0].textContent;
-    var cardColor = e.currentTarget.classList[1].slice(5);
-
-    // je dois passer à player.play :
-    // l'element cliqué, son numéro, sa couleur
-    //player.play(cardNumber, cardColor);
-}
-
-
-
-//couleurs des cartes à jouer
-/*var cardValue = [
-    '0ROSE', '1ROSE', '2ROSE', '3ROSE', '4ROSE', '5ROSE', '6ROSE', '7ROSE', '8ROSE', '9ROSE',
-    '0ROUGE', '1ROUGE', '2ROUGE', '3ROUGE', '4ROUGE', '5ROUGE', '6ROUGE', '7ROUGE', '8ROUGE', '9ROUGE',
-    '0BLEU', '1BLEU', '2BLEU', '3BLEU', '4BLEU', '5BLEU', '6BLEU', '7BLEU', '8BLEU', '9BLEU',
-    '0VIOLET', '1VIOLET', '2VIOLET', '3VIOLET', '4VIOLET', '5VIOLET', '6VIOLET', '7VIOLET', '8VIOLET', '9VIOLET'
-];*/
-
-//fonction qui génère dans un tableau mes 76 cartes avec leurs exceptions
-function generateCard() {
-    var colorCard = ['ROSE', 'ROUGE', 'BLEU', 'VIOLET'];
-    var arrCard = [];
-
-    colorCard.map(function(color) {
-        var arr = new Array(9);
-        for (var i = 0; i < arr.length + 1; i++) {
-            var card = (i + color);
-            //var result = i === 0 ? arrCard.push(card) : arrCard.push(card, card);
-            if (i === 0) {
-                arrCard.push(card)
-            } else {
-                arrCard.push(card, card)
-            }
-        }
-    })
-    return arrCard;
-}
-
-
-//function qui affiche 7 cartes random à l'init 
-function getRandomCard() {
-    var cards = [];
-    var cardValue = generateCard();
-    for (i = 0; i < 7; i++) {
-        cards.push(cardValue[Math.floor(Math.random() * cardValue.length)])
+/* -------- */
+/*
+Functions utils
+*/
+function initCardsBoard(cards) {
+    var arrCards = [];
+    for (i = 0; i < cards.length; i++) {
+        arrCards.push(cards[Math.floor(Math.random() * cards.length)])
     }
-    return cards;
+    console.log('voici la liste des ', arrCards.length, ' cartes mélangées : ', arrCards);
+    //je met à jour la liste de mes cartes qui se trouvent sur la table
+    state.board.cards.push(arrCards);
 }
 
-
-//je veux associer la value de l'array 'cardValue' à une carte pour afficher le CSS
-function renderCard(player) {
-    var cardsArray = getRandomCard();
-    player.cardsArray = cardsArray;
-
-    var newArr = [];
-    var index = 0;
-    cardsArray.forEach(function(card) {
-        var numberCard = card.split('');
-        var cardColor = card.slice(1);
-        index++
-
-        var myCard = null;
-
-        var card = new Card(cardColor, numberCard[0]);
-
-        if (player.isCardVisible) {
-            myCard = '<a href="#"><div class="card card-' + card.color + '" id="player1' + index + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></a>';
-        } else {
-            myCard = '<div class="card card-BACK"><span class="card-number">B</span></div>';
+function updateStateCardBoard(cards, arrCardBoard) {
+    var index;
+    for (var i = 0; i < cards.length; i++) {
+        index = arrCardBoard.indexOf(arrCardBoard[i]);
+        if (index > -1) {
+            arrCardBoard.splice(index, 1);
         }
-        newArr.push(myCard);
-    });
+    }
+    console.log('il me reste ', state.board.cards[0].length, ' après la distribution ');
+}
 
+function getRandomCards(cardsNumbers) {
+    var arrCards = [];
+    var boardCards = state.board.cards[0];
+    for (i = 0; i < cardsNumbers; i++) {
+        arrCards.push(boardCards[Math.floor(Math.random() * boardCards.length)])
+    }
+
+    // je met à jour la liste de mes cartes du jeu (board)
+    // en y supprimant les cartes qui viennent d'être distribuées au joueur 
+    updateStateCardBoard(arrCards, boardCards);
+
+    return arrCards;
+}
+
+/* -------- */
+/*
+Init game functions
+*/
+
+function distributeCards(cardsNumbers) {
+    var arrCardsPlayer1 = getRandomCards(cardsNumbers);
+    var arrCardsPlayer2 = getRandomCards(cardsNumbers);
+    var player1 = new Player('player1', arrCardsPlayer1);
+    var player2 = new Player('player2', arrCardsPlayer2);
+
+    player1.turn = true;
+    player1.isBot = true;
+    player1.id = 'player1';
+    player2.id = 'player2';
+    state.players = [player1, player2];
+
+}
+
+//fonction pour avoir la carte qui débute le jeu
+function initCardStartGame(numberCard) {
+    var cardsBoard = state.board.cards[0];
+    var newArr = [];
+
+    for (var i = 0; i < numberCard; i++) {
+        newArr.push(cardsBoard[i]);
+    }
+
+    //je met à jour le nombre de cartes dans le jeu
+    updateStateCardBoard(newArr, cardsBoard) //=> PAS LA BONNE VALEUR !!
+
+    console.log('J\'ai ' + newArr.length + ' carte pour débuter mon jeu')
     return newArr;
 }
 
 
-//j'affiche les cartes dans chaque zone joueur 
-function zonePlayer(gameZone, typePlayer) {
-    var player = new Player(typePlayer, 'bob')
-    var arrCards = renderCard(player);
 
-    var boardGame = gameZone === 'top' && !player.isCardVisible ? $('.color-game_board--zone-player-2')[0] :
-        $('.color-game_board--zone-player-1')[0];
-    var card = document.createElement("div");
-    card.className = 'card-game-container';
 
-    var index = 0;
-    arrCards.map(function(item) {
-        index++
-        boardGame.innerHTML += item;
-
-        if (typePlayer) {
-            //il ne s'ajoute qu'au dernier élément pourquoi ???
-            boardGame.addEventListener("click", cardClick, false);
-        }
-    });
-
-    player.arrayCard = arrCards; //7 cartes
-    return player
-}
-
-//affiche la zone de la pioche
-function zonePickaxe() {
-    var arrCards = new getCard();
-    var index = 0;
-    var pickaxe = $('.pickaxe')[0];
-    var newArr = [];
-
-    arrCards.forEach(function(card) {
-        var numberCard = card.split('');
-        var cardColor = card.slice(1);
-        var myCard = null;
-        var card = new Card(cardColor, numberCard[0]);
-        index++
-
-        myCard = '<a href="#"><div class="card card-pickaxe card-' + card.color + '" id="card-pickaxe' + index + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></a>';
-        newArr.push(myCard);
-    });
-
-    newArr.map(function(card) {
-        pickaxe.innerHTML += card;
-    });
+/* -------- */
+/*
+Functions rendu IHM
+*/
+//fonction qui affiches les cartes des joueurs dans l'ihm
+function renderPlayersCards(players) {
+    var newCard = null;
+    players.forEach(function(player) {
+        player.cards.forEach(function(card) {
+            newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
+            document.getElementById(player.id).innerHTML += newCard;
+        })
+    })
 
 }
 
-function showFirstCard() {
-    var firstPickaxeCard = $('.card-pickaxe:first-child').detach();
-    $('.card-played').append(firstPickaxeCard);
+function renderCardsBoard(cards, locationDom) {
+    var newCard = null;
+    cards.forEach(function(card) {
+        newCard = '<button role="button"><div class="card card-pickaxe card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
+        locationDom.innerHTML += newCard;
+    })
+
+    //je met à jour le state de ma pile "cartes jouées"
+    if (locationDom === putCardArea) {
+        state.cardsPlayed.push(cards)
+    }
 }
+
+
+/* -------- */
+/*
+Game Tour function
+*/
+/*  
+            playCard(player, state[player].cards)
+            function playCard(player, card) {
+                removeCard(state[player].cards, card) //je supprime la carte cliquée du tas de cartes du joueur 
+                state.board.cards.push(card) // je la rajoute au tas de cartes du board
+                updatePioche()
+                updateCardBoard()
+            }
+*/
+
+function gameTour(player) {
+    //je saisi à qui c'est tour
+    var currentPlayer = null;
+    var currentPlayerCards = null;
+    player.find(function(p) {
+        if (p.turn) {
+            currentPlayer = p;
+            currentPlayerCards = p.cards;
+        };
+    })
+
+    console.log('le joueur qui joue est le ', currentPlayer.name);
+    //je met à jour le state du joueur à qui c'est le tour
+    state.turn = currentPlayer.id;
+
+    var boardGame = new BoardView(currentPlayer.id);
+
+    //je place un event listener sur la div parent des cartes du joueur1 réel
+    //qui appel la fonction qui check les règles du jeu 
+    var cardClick = function(e) {
+        var cardTargetObj = null;
+        cardTargetObj = currentPlayerCards.find(function(card) {
+            if (card.id == e.target.id) {
+                return card;
+            }
+        });
+        console.log('cardTarget: ', cardTargetObj)
+
+        boardGame.cardClick(cardTargetObj, e.target, currentPlayer, currentPlayerCards);
+
+
+
+        //c'est le tour de l'autre joueur
+        player.find(function(p) {
+            if (!p.turn) {
+                currentPlayer = p;
+                p.turn = true;
+                currentPlayerCards = p.cards;
+            };
+        });
+    }
+    boardGame.zoneCardRealPlayer.addEventListener('click', cardClick, true);
+}
+
 
 window.onload = function() {
-    console.log('j\'affiche 7 cartes random à l\'init', getRandomCard());
-    console.log('je suis le joueur fictif et mes cartes sont en haut', new zonePlayer('top', false));
-    console.log('je suis le joueur fictif et mes cartes sont en bas', new zonePlayer('bottom', true));
-    console.log('je suis la pioche', zonePickaxe())
+    //animation logo
+    setTimeout(function() {
+        document.querySelector('.logo').classList.add('open');
+    }, 500);
 
-    //à l'init j'affiche une carte random dans la zone 'carte à jouer' pour le début de jeu
-    showFirstCard()
+    //je mélange mes 76 cartes 
+    initCardsBoard(getCard());
 
-    //je fais la zone du joueur 1
-    // je fais la zone du joueur 2
-    // Je distribue 7 cartes au joueur 1
-    //je distribue 7 cartes au joueur 2
+    //je distribue 7 cartes au joueur 1
+    distributeCards(7);
+
+    //j'affiches les cartes de mes joueurs dans l'ihm
+    renderPlayersCards(state.players);
+
+    //j'init une carte au hasard sur le board pour démarrer le jeu : il s'agit de la pile "cartes à jouer"
+    renderCardsBoard(initCardStartGame(1), putCardArea);
+
+    //j'init le tas de cartes de la pioche
+    renderCardsBoard(state.board.cards[0], pickaxe);
+
+    //au tour du joueur 1
+    gameTour(state.players)
 }

@@ -1,16 +1,15 @@
 var state = require('./utils/state');
 var getCard = require('./utils/get-card');
 var updateStateCardBoard = require('./utils/update-state-card');
+var cardTemplate = require('./utils/card-template');
+
 var BoardView = require("./board");
 var Player = require('./player');
 
-var player1ZoneHTML = $('div[data-player="player1"]')[0];
-var player2ZoneHTML = $('div[data-player="player2"]')[0];
-var putCardArea = $('.card-played')[0];
-var pickaxe = $('.pickaxe')[0];
-
-
-
+var player1Area = $('div[data-player="player1"]')[0];
+var player2Area = $('div[data-player="player2"]')[0];
+var putCardArea = $('#card-played')[0];
+var pickaxe = $('#pickaxe')[0];
 
 
 /* -------- */
@@ -64,7 +63,7 @@ function distributeCards(cardsNumbers) {
     var player2 = new Player('player2', arrCardsPlayer2);
 
     player1.turn = true;
-    player1.isBot = true;
+    player2.isBot = true;
     player1.id = 'player1';
     player2.id = 'player2';
     state.players = [player1, player2];
@@ -95,12 +94,15 @@ function initCardStartGame(numberCard) {
 Functions rendu IHM
 */
 //fonction qui affiches les cartes des joueurs dans l'ihm
+var marginLeftValue = 0;
+
 function renderPlayersCards(players) {
     var newCard = null;
     players.forEach(function(player) {
         player.cards.forEach(function(card) {
-            newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
-            document.getElementById(player.id).innerHTML += newCard;
+            //newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
+            newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue += 60);
+            $('div[data-player="' + player.id + '"] .card-gamme')[0].innerHTML += newCard;
         })
     })
 
@@ -109,7 +111,8 @@ function renderPlayersCards(players) {
 function renderCardsBoard(cards, locationDom) {
     var newCard = null;
     cards.forEach(function(card) {
-        newCard = '<button role="button"><div class="card card-pickaxe card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
+        //newCard = '<button role="button"><div class="card card-pickaxe card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
+        newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue = 0);
         locationDom.innerHTML += newCard;
     })
 
@@ -149,14 +152,14 @@ function gameTour(player) {
     //je met à jour le state du joueur à qui c'est le tour
     state.turn = currentPlayer.id;
 
-    var boardGame = new BoardView();
+    var boardGame = new BoardView(currentPlayer.id);
 
     //je place un event listener sur la div parent des cartes du joueur1 réel
     //qui appel la fonction qui check les règles du jeu 
     var cardClick = function(e) {
         var cardTargetObj = null;
         cardTargetObj = currentPlayerCards.find(function(card) {
-            if (card.id == e.target.id) {
+            if (card.id == e.target.id) { // /!\ ici je récupère les enfants du button et non pas le btn même ...
                 return card;
             }
         });

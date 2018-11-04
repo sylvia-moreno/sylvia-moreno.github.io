@@ -1,12 +1,15 @@
 var state = require('./utils/state');
 var updateStateCardBoard = require('./utils/update-state-card');
 var removeCard = require('./utils/remove-card');
+var cardTemplate = require('./utils/card-template');
+
+
 var putCardArea = $('.card-played')[0];
 
 
-function BoardView() {
-    this.zoneCardRealPlayer = $('.zone-player-bottom')[0];
-    this.cardPlayed = $('.card-played-board')[0];
+function BoardView(cuurentPlayer) {
+    this.zoneCardRealPlayer = $('div[data-player="player1"]')[0];
+    this.cardPlayed = $('#card-played')[0];
 
     this.cardClick = function(card, cardDomElt, player, currentPlayerCards) {
         var cardOnBoardPlayed = state.cardsPlayed[0].slice(-1)[0];
@@ -29,12 +32,13 @@ function BoardView() {
             var cardPickaxe = null;
             $('.pickaxe').click(function(e) {
                 cardPickaxe = state.board.cards[0].find(function(card) {
-                    if (card.id == e.target.id) {
+                    if (card.id == e.target.parent().id) {
                         return card;
                     }
                 });
                 //j'ajoute la 1e carte à mon tas joueur
-                var addCardPlayerGame = '<button role="button"><div class="card card-' + cardPickaxe.color + '" id="' + cardPickaxe.id + '">' + '<span class="card-number">' + cardPickaxe.number + '</span>' + '</div></button>';
+                //var addCardPlayerGame = '<button role="button"><div class="card card-' + cardPickaxe.color + '" id="' + cardPickaxe.id + '">' + '<span class="card-number">' + cardPickaxe.number + '</span>' + '</div></button>';
+                var addCardPlayerGame = cardTemplate(card.color, card.number, card.id, marginValue += 0);
                 $('#' + player.id + '')[0].innerHTML += addCardPlayerGame;
 
                 //je supprime la carte de la pile de la pioche
@@ -70,11 +74,12 @@ function BoardView() {
         updateStateCardBoard(card.number + card.color, currentPlayerCards);
 
         //je retire l'ancienne carte du tas 'cartes à jouer'
-        $('.card-played button')[0].remove();
+        $('#card-played button')[0].remove();
 
         //j'ajoute cette carte au tas 'cartes à jouer'
-        var newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
-        $('.card-played')[0].innerHTML += newCard;
+        //var newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
+        var newCard = cardTemplate(card.color, card.number, card.id, marginValue += 0);
+        $('#card-played')[0].innerHTML += newCard;
     }
 }
 

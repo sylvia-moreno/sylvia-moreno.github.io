@@ -37,6 +37,10 @@
         width: inherit;
         height: inherit;
     }
+    &-zone-cards-center {
+        display: flex;
+        justify-content: space-evenly;
+    }
     &-color-wrapper {
         border: 23px solid white;
     }
@@ -46,7 +50,7 @@
         text-align: center;
         position: relative;
         padding-top: 15px;
-        margin: -300px 0 0px 0;
+        margin: -150px 0 0px 0;
         //--Table board
         .table-wrapper {
             margin-top: 10px;

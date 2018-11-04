@@ -3,3 +3,13 @@
     display: flex;
     //border: 1px solid;
 }
+
+.game-zone-cards-player {
+    position: relative;
+    &:last-child {
+        .card-gamme {
+            position: absolute;
+            bottom: 135px;
+        }
+    }
+}

@@ -33,6 +33,10 @@
   width: inherit;
   height: inherit; }
 
+.game-zone-cards-center {
+  display: flex;
+  justify-content: space-evenly; }
+
 .game-color-wrapper {
   border: 23px solid white; }
 
@@ -42,7 +46,7 @@
   text-align: center;
   position: relative;
   padding-top: 15px;
-  margin: -300px 0 0px 0; }
+  margin: -150px 0 0px 0; }
   .game-wrapper .table-wrapper {
     margin-top: 10px;
     transform: rotateX(20deg);
@@ -175,12 +179,13 @@
     font-size: 50px; }
 
 .card-gamme .card {
-  width: 150px;
-  height: 200px;
+  width: 100px;
+  height: 130px;
   border: 10px solid #FFF;
   font-family: 'Fjalla One', sans-serif;
   cursor: pointer;
-  transition: transform 0.3s; }
+  transition: transform 0.3s;
+  position: absolute; }
   .card-gamme .card_top {
     transform: skew(-11.25deg);
     position: absolute;
@@ -188,7 +193,7 @@
     left: 0; }
   .card-gamme .card_tabs {
     height: 70px;
-    font-size: 30px;
+    font-size: 15px;
     color: #FFF;
     text-shadow: 1px 1px #000;
     margin: 0 5px; }
@@ -196,9 +201,9 @@
     text-align: left; }
   .card-gamme .card_centre {
     overflow: hidden;
-    font-size: 80px;
-    height: 120px;
-    width: 88px;
+    font-size: 59px;
+    height: 80px;
+    width: 80px;
     background-color: white;
     margin-top: -32px;
     margin-bottom: -36px;
@@ -234,6 +239,12 @@
 .zone-player-cards {
   justify-content: space-evenly;
   display: flex; }
+
+.game-zone-cards-player {
+  position: relative; }
+  .game-zone-cards-player:last-child .card-gamme {
+    position: absolute;
+    bottom: 135px; }
 
 body {
   margin: 0;
