@@ -56,7 +56,7 @@
         border: 10px solid #FFF;
         font-family: 'Fjalla One', sans-serif;
         cursor: pointer;
-        transition: transform 0.3s;
+        transition: transform 0.3s, ease-out 0.4s;
         position: absolute;
         //--Chiffre haut gauche
         &_top {
@@ -85,7 +85,7 @@
             margin-top: -32px;
             margin-bottom: -36px;
             border-radius: 100%;
-            text-shadow: 5px 5px #000;
+            text-shadow: 3px 3px #000;
             transform: skew(-11.25deg);
         }
         .center-block {

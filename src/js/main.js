@@ -2,7 +2,7 @@ var state = require('./utils/state');
 var getCard = require('./utils/get-card');
 var updateStateCardBoard = require('./utils/update-state-card');
 var cardTemplate = require('./utils/card-template');
-
+var shuffleCard = require('./utils/shuffle-card');
 var BoardView = require("./board");
 var Player = require('./player');
 
@@ -18,12 +18,11 @@ Functions utils
 */
 function initCardsBoard(cards) {
     var arrCards = [];
-    for (i = 0; i < cards.length; i++) {
-        arrCards.push(cards[Math.floor(Math.random() * cards.length)])
-    }
+    arrCards.push(shuffleCard(cards));
     console.log('voici la liste des ', arrCards.length, ' cartes mélangées : ', arrCards);
     //je met à jour la liste de mes cartes qui se trouvent sur la table
     state.board.cards.push(arrCards);
+    console.log('A initCardsBoard, voici ce que j\'ai dans mon state board cards ', state.board.cards);
 }
 
 function updateStateCardBoard(cards, arrCardBoard) {
@@ -34,20 +33,19 @@ function updateStateCardBoard(cards, arrCardBoard) {
             arrCardBoard.splice(index, 1);
         }
     }
-    console.log('il me reste ', state.board.cards[0].length, ' après la distribution ');
+    console.log('il me reste ', state.board.cards[0][0].length, ' après la distribution ');
 }
 
 function getRandomCards(cardsNumbers) {
     var arrCards = [];
-    var boardCards = state.board.cards[0];
+    var boardCards = state.board.cards[0][0];
     for (i = 0; i < cardsNumbers; i++) {
-        arrCards.push(boardCards[Math.floor(Math.random() * boardCards.length)])
+        arrCards.push(boardCards[i]);
     }
 
     // je met à jour la liste de mes cartes du jeu (board)
     // en y supprimant les cartes qui viennent d'être distribuées au joueur 
     updateStateCardBoard(arrCards, boardCards);
-
     return arrCards;
 }
 
@@ -67,12 +65,11 @@ function distributeCards(cardsNumbers) {
     player1.id = 'player1';
     player2.id = 'player2';
     state.players = [player1, player2];
-
 }
 
 //fonction pour avoir la carte qui débute le jeu
 function initCardStartGame(numberCard) {
-    var cardsBoard = state.board.cards[0];
+    var cardsBoard = state.board.cards[0][0];
     var newArr = [];
 
     for (var i = 0; i < numberCard; i++) {
@@ -161,6 +158,8 @@ function gameTour(player) {
         cardTargetObj = currentPlayerCards.find(function(card) {
             if (card.id == e.target.id) { // /!\ ici je récupère les enfants du button et non pas le btn même ...
                 return card;
+            } else if (card.id == e.target.closest('.card').id) {
+                return card;
             }
         });
         console.log('cardTarget: ', cardTargetObj)
@@ -201,7 +200,7 @@ window.onload = function() {
     renderCardsBoard(initCardStartGame(1), putCardArea);
 
     //j'init le tas de cartes de la pioche
-    renderCardsBoard(state.board.cards[0], pickaxe);
+    renderCardsBoard(state.board.cards[0][0], pickaxe);
 
     //au tour du joueur 1
     gameTour(state.players)
