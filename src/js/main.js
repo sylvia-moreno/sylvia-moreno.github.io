@@ -22,7 +22,7 @@ function initCardsBoard(cards) {
     console.log('voici la liste des ', arrCards.length, ' cartes mélangées : ', arrCards);
     //je met à jour la liste de mes cartes qui se trouvent sur la table
     state.board.cards.push(arrCards);
-    console.log('A initCardsBoard, voici ce que j\'ai dans mon state board cards ', state.board.cards);
+    console.log('A initCardsBoard, voici ce que j\'ai dans mon state board cards ', state.board.cards[0][0]);
 }
 
 function updateStateCardBoard(cards, arrCardBoard) {
@@ -72,12 +72,10 @@ function initCardStartGame(numberCard) {
     var cardsBoard = state.board.cards[0][0];
     var newArr = [];
 
-    for (var i = 0; i < numberCard; i++) {
-        newArr.push(cardsBoard[i]);
-    }
+    for (var i = 0; i < numberCard; i++) { newArr.push(cardsBoard[i]); }
 
     //je met à jour le nombre de cartes dans le jeu
-    updateStateCardBoard(newArr, cardsBoard) //=> PAS LA BONNE VALEUR !!
+    updateStateCardBoard(newArr, cardsBoard);
 
     console.log('J\'ai ' + newArr.length + ' carte pour débuter mon jeu')
     return newArr;
@@ -97,7 +95,6 @@ function renderPlayersCards(players) {
     var newCard = null;
     players.forEach(function(player) {
         player.cards.forEach(function(card) {
-            //newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
             newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue += 60);
             $('div[data-player="' + player.id + '"] .card-gamme')[0].innerHTML += newCard;
         })
@@ -108,15 +105,12 @@ function renderPlayersCards(players) {
 function renderCardsBoard(cards, locationDom) {
     var newCard = null;
     cards.forEach(function(card) {
-        //newCard = '<button role="button"><div class="card card-pickaxe card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
         newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue = 0);
         locationDom.innerHTML += newCard;
     })
 
     //je met à jour le state de ma pile "cartes jouées"
-    if (locationDom === putCardArea) {
-        state.cardsPlayed.push(cards)
-    }
+    if (locationDom === putCardArea) { state.cardsPlayed.push(cards[0]) }
 }
 
 
@@ -124,16 +118,6 @@ function renderCardsBoard(cards, locationDom) {
 /*
 Game Tour function
 */
-/*  
-            playCard(player, state[player].cards)
-            function playCard(player, card) {
-                removeCard(state[player].cards, card) //je supprime la carte cliquée du tas de cartes du joueur 
-                state.board.cards.push(card) // je la rajoute au tas de cartes du board
-                updatePioche()
-                updateCardBoard()
-            }
-*/
-
 function gameTour(player) {
     //je saisi à qui c'est tour
     var currentPlayer = null;
@@ -149,24 +133,19 @@ function gameTour(player) {
     //je met à jour le state du joueur à qui c'est le tour
     state.turn = currentPlayer.id;
 
-    var boardGame = new BoardView(currentPlayer.id);
+    var boardGame = new BoardView(currentPlayer.id, currentPlayer);
 
     //je place un event listener sur la div parent des cartes du joueur1 réel
     //qui appel la fonction qui check les règles du jeu 
     var cardClick = function(e) {
         var cardTargetObj = null;
+        var cardTarget = e.target.closest('.card');
         cardTargetObj = currentPlayerCards.find(function(card) {
-            if (card.id == e.target.id) { // /!\ ici je récupère les enfants du button et non pas le btn même ...
-                return card;
-            } else if (card.id == e.target.closest('.card').id) {
-                return card;
-            }
+            if (card.id == cardTarget.id) { return card; }
         });
         console.log('cardTarget: ', cardTargetObj)
 
-        boardGame.cardClick(cardTargetObj, e.target, currentPlayer, currentPlayerCards);
-
-
+        boardGame.cardClick(cardTargetObj, cardTarget, currentPlayer, currentPlayerCards);
 
         //c'est le tour de l'autre joueur
         player.find(function(p) {
@@ -174,10 +153,12 @@ function gameTour(player) {
                 currentPlayer = p;
                 p.turn = true;
                 currentPlayerCards = p.cards;
+                console.log('c\'est au tour du joueur ', currentPlayer);
             };
         });
     }
-    boardGame.zoneCardRealPlayer.addEventListener('click', cardClick, true);
+    boardGame.zoneCardsPlayer.addEventListener('click', cardClick, true);
+    console.log('mon joueur ', currentPlayer.id, ' a ', currentPlayer.cards.length, ' cartes')
 }
 
 

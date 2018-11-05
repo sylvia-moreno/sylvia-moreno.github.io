@@ -7,58 +7,36 @@ var marginLeftValue = 0;
 var putCardArea = $('.card-played')[0];
 
 
-function BoardView(curentPlayer) {
+function BoardView(curentPlayer, player) {
     var marginLeftValue = 0;
-    this.zoneCardRealPlayer = $('div[data-player="player1"]')[0];
+    this.zoneCardsPlayer = $('div[data-player="' + player.id + '"]')[0];
+    this.cardOnBoard = $('button.card')[0];
     this.cardPlayed = $('#card-played')[0];
 
     //mise en avant du nom du joueur à qui c'est le tour
-    $('#game-player-name-' + curentPlayer + '').addClass('isTurn');
+    $('#game-player-name-' + player.id + '').addClass('isTurn');
 
     this.cardClick = function(card, cardDomElt, player, currentPlayerCards) {
-        var cardOnBoardPlayed = state.cardsPlayed[0].slice(-1)[0];
+        //var cardOnBoardPlayed = state.cardsPlayed[0].slice(-1)[0];
+        var cardOnBoardPlayed = state.cardsPlayed[0]; // /!\ c'est la carte qui donne le jeu
 
-        //placer un data-attribut sur chaque carte générer
-
-        //je vérifie un tas de règle avant de décider si je peux jouer
-        //state.cardsPlayed[0].find(function(cardState) {
-
-        //cardState.id === card.id;
-        //})
 
         if (card.number === cardOnBoardPlayed.number || card.color === cardOnBoardPlayed.color) {
             console.log('je peux jouer');
             playCard(card, player.id, currentPlayerCards, cardDomElt);
             state.cardsPlayed.push(card);
-            console.log('mon joueur ' + player + 'possède' + state.cardsPlayed)
+            console.log('mon joueur ' + player.id + ' possède ' + player.cards.length + ' cartes');
         } else {
             console.log('je ne peux pas jouer');
             // je ne peux que cliquer sur la pioche 
-            var cardPickaxe = null;
-            $('.pickaxe').click(function(e) {
-                cardPickaxe = state.board.cards[0].find(function(card) {
-                    if (card.id == e.target.parent().id) {
-                        return card;
-                    }
-                });
-                //j'ajoute la 1e carte à mon tas joueur
-                var addCardPlayerGame = cardTemplate(card.color, card.number, card.id, marginLeftValue);
-                $('#' + player.id + '')[0].innerHTML += addCardPlayerGame;
-
-                //je supprime la carte de la pile de la pioche
-                $('.pickaxe button').last().remove();
-
-                //je met à jour mon obj player.card avec la carte en plsu dans son jeu
-                player.cards.push(cardPickaxe);
-
-
-
-            });
+            notPlayCard();
         }
         //je retire la classe qui anime le nom du joueur à qui ce n'est plus le tour
-        $('#game-player-name-' + curentPlayer + '').removeClass('isTurn');
+        $('#game-player-name-' + player.id + '').removeClass('isTurn');
+
     }
 
+    //fonction 'je peux jouer'
     function playCard(card, player, currentPlayerCards, cardDomElt) {
         //je supprime la carte ok du tas du joueur du DOM
         cardDomElt.remove();
@@ -70,22 +48,44 @@ function BoardView(curentPlayer) {
                 p.cards.map(function(c) {
                     if (c.number === card.number && c.color === card.color && c.id === card.id) {
                         cardObjRemove = card
+                        console.log('player: ', p);
+                        removeCard(currentPlayerCards, cardObjRemove);
                     }
                 })
             }
         });
-        removeCard(currentPlayerCards, cardObjRemove);
-
-        //j'update le state card.board
-        updateStateCardBoard(card, currentPlayerCards);
 
         //je retire l'ancienne carte du tas 'cartes à jouer'
         $('#card-played button')[0].remove();
 
         //j'ajoute cette carte au tas 'cartes à jouer'
-        //var newCard = '<button role="button"><div class="card card-' + card.color + '" id="' + card.id + '">' + '<span class="card-number">' + card.number + '</span>' + '</div></button>';
         var newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue);
         $('#card-played')[0].innerHTML += newCard;
+    }
+
+    //fonction 'je peux pas jouer': pioche + ajoute de la carte dans le jeu du joueur
+    function notPlayCard() {
+        $('#pickaxe button.card').click(function(e) {
+            var cardAdd = null;
+
+            var card = e.target.closest('.card');
+            cardAdd = state.board.cards[0][0].find(function(card) {
+                if (card.id == e.target.closest('.card').id) {
+                    return card;
+                }
+            });
+            console.log('cardAdd: ', cardAdd);
+
+            //je met à jour mon obj player.card avec la carte en plus dans son jeu
+            player.cards.push(cardAdd);
+            //j'ajoute la 1e carte à mon tas joueur
+            var addCardPlayerGame = cardTemplate(cardAdd.color, cardAdd.number, cardAdd.id, marginLeftValue += 40);
+            $('div[data-player="' + player.id + '"] .card-gamme button:last-child')[0].innerHTML += addCardPlayerGame;
+
+            //je supprime la carte de la pile de la pioche
+            $('#pickaxe button:last-child')[0].remove();
+            console.log('mon joueur ', player.id, ' a ', player.cards.length, ' cartes')
+        });
     }
 }
 
