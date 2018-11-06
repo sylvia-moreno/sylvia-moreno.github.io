@@ -50,14 +50,14 @@
         text-align: center;
         position: relative;
         padding-top: 15px;
-        margin: -150px 0 0px 0;
+        margin: -142px 0 0px 0;
         //--Table board
         .table-wrapper {
             margin-top: 10px;
             transform: rotateX(20deg);
             height: 900px;
             transform-origin: bottom;
-            z-index: 9999;
+            z-index: 50;
             position: relative;
             margin: 10px auto 0 auto;
             width: 900px;

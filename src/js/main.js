@@ -119,9 +119,10 @@ function renderCardsBoard(cards, locationDom) {
 Game Tour function
 */
 function gameTour(player) {
-    //je saisi à qui c'est tour
     var currentPlayer = null;
     var currentPlayerCards = null;
+
+    //je saisi à qui c'est tour
     player.find(function(p) {
         if (p.turn) {
             currentPlayer = p;

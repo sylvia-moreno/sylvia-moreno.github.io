@@ -1,6 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=VT323");
-@import url("https://fonts.googleapis.com/css?family=Fjalla+One");
 @import url("https://fonts.googleapis.com/css?family=Anton");
+@import url("https://fonts.googleapis.com/css?family=Fjalla+One");
+@import url("https://fonts.googleapis.com/css?family=VT323");
+@import url("https://fonts.googleapis.com/css?family=VT323");
 #color-game_board {
   background: #FFEFEE;
   width: 800px;
@@ -46,13 +47,13 @@
   text-align: center;
   position: relative;
   padding-top: 15px;
-  margin: -150px 0 0px 0; }
+  margin: -142px 0 0px 0; }
   .game-wrapper .table-wrapper {
     margin-top: 10px;
     transform: rotateX(20deg);
     height: 900px;
     transform-origin: bottom;
-    z-index: 9999;
+    z-index: 50;
     position: relative;
     margin: 10px auto 0 auto;
     width: 900px;
@@ -238,6 +239,68 @@
     position: absolute;
     bottom: 135px; }
 
+.game-modal-block {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  border-radius: .625rem;
+  width: 39.375rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50.1%);
+  background: #fff;
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Anton', sans-serif;
+  border-bottom: 5px solid #c7c3b6;
+  border-right: 4px solid #9a978e; }
+  .game-modal-block button {
+    position: relative;
+    padding: 10px 40px;
+    margin: 35px 0;
+    float: left;
+    border-radius: 10px;
+    font-family: 'VT323', monospace;
+    font-size: 25px;
+    color: #FFF;
+    text-decoration: none;
+    background-color: #F2CF66;
+    border-bottom: 5px solid #D1B358;
+    text-shadow: 0px -2px #D1B358;
+    text-transform: uppercase; }
+    .game-modal-block button:active {
+      transform: translate(0px, 5px);
+      border-bottom: 1px solid; }
+  .game-modal-block input {
+    display: block;
+    font-size: 14px;
+    width: 240px;
+    margin: 20px auto;
+    padding: 10px 8px 10px 8px;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55), 0px 1px 1px rgba(255, 255, 255, 0.5);
+    border: 1px solid #666; }
+  .game-modal-block--visible {
+    display: flex; }
+
+.game-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(31, 5, 5, 0.5);
+  z-index: 70;
+  opacity: 70;
+  transition: opacity .5s ease; }
+  .game-modal-backdrop--visible {
+    bottom: 0;
+    opacity: 1; }
+
+.game-modal-content-start form, .game-modal-content-finish form {
+  display: flex;
+  flex-direction: column; }
+
 body {
   margin: 0;
   background: #B4E1D9;
@@ -250,12 +313,11 @@ body {
 
 header {
   height: 20px;
-  background: #fff;
   margin-bottom: 100px; }
   header .logo {
     display: block;
     position: relative;
-    margin: 0px auto;
+    margin: 22px auto 0px;
     width: 100px;
     height: 100px; }
     header .logo h1 {

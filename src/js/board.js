@@ -26,10 +26,16 @@ function BoardView(curentPlayer, player) {
             playCard(card, player.id, currentPlayerCards, cardDomElt);
             state.cardsPlayed.push(card);
             console.log('mon joueur ' + player.id + ' possède ' + player.cards.length + ' cartes');
+
+            //c'est au tour de l'autre joueur
+            // ....
         } else {
             console.log('je ne peux pas jouer');
             // je ne peux que cliquer sur la pioche 
             notPlayCard();
+
+            //c'est au tour de l'autre joueur
+            // ....
         }
         //je retire la classe qui anime le nom du joueur à qui ce n'est plus le tour
         $('#game-player-name-' + player.id + '').removeClass('isTurn');

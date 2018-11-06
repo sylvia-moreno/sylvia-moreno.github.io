@@ -1,7 +1,12 @@
+//Fonts
+@import url('https://fonts.googleapis.com/css?family=Anton');
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@import url('https://fonts.googleapis.com/css?family=VT323');
+//SCSS
 @import "board-game.scss";
 @import "cards.scss";
 @import "zone-played-cards.scss";
-@import url('https://fonts.googleapis.com/css?family=Anton');
+@import "game-modal.scss";
 body {
     margin: 0;
     background: #B4E1D9;
@@ -16,13 +21,12 @@ body {
 
 header {
     height: 20px;
-    background: #fff;
     margin-bottom: 100px;
     //--Logo 
     .logo {
         display: block;
         position: relative;
-        margin: 0px auto;
+        margin: 22px auto 0px;
         width: 100px;
         height: 100px;
         h1 {
