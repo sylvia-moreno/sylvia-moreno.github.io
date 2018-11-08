@@ -4,9 +4,7 @@ function Player(name, cards) {
     this.id = null;
     this.turn = false;
     this.isBot = false;
-    this.play = function() {
-
-    }
+    this.gameOver = null;
 }
 
 module.exports = Player;

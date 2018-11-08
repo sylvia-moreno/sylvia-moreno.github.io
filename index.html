@@ -24,7 +24,7 @@
 
         <div class="game-wrapper">
             <div class="table-wrapper">
-                <p class="game-player-name game-player-name--bot" id="game-player-name-player2">Player 2</p>
+                <p class="game-player-name game-player-name--bot" id="game-player-name-player2"></p>
                 <div class="table-surface">
                     <div class="table">
                         <div class="game-board">
@@ -58,11 +58,20 @@
                     </div>
                 </div>
                 <div class="table-edge"></div>
-                <p class="game-player-name game-player-name--real" id="game-player-name-player1">Player 1</p>
+                <p class="game-player-name game-player-name--real" id="game-player-name-player1"></p>
             </div>
 
             <div class="game-modal">
-                <div class="game-modal-block game-modal-block--visible">
+                <div class="game-modal-block visible">
+                    <span class="game-modal-content game-modal-content-start">
+                        <form>
+                            <h1>Start Game</h1>
+                            <p>Which one of you two will be the first to run out of cards?</p>
+                            <p>Player 1 : <input type="text" id="input-name-player1" placeholder="player 1, your name please"></p>
+                            <p>Player 2 : <input type="text" id="input-name-player2" placeholder="player 2, your name please"></p>
+                            <button id="start-game" type="button">Play !</button>
+                        </form>
+                    </span>
                     <!--<span class="game-modal-content game-modal-content-finish">
                         <form>
                             <h1>Congrate</h1>
@@ -71,17 +80,9 @@
                         </form>
                     </span>-->
 
-                    <span class="game-modal-content game-modal-content-start">
-                        <form>
-                            <h1>Start Game</h1>
-                            <p>Which one of you two will be the first to run out of cards?</p>
-                            <input type="text" id="input-name-player1" placeholder="player 1, your name please">
-                            <input type="text" id="input-name-player2" placeholder="player 2, your name please">
-                            <button id="start-game">Play !</button>
-                        </form>
-                    </span>
+
                 </div>
-                <span class="game-modal-backdrop game-modal-backdrop--visible"></span>
+                <span class="game-modal-backdrop visible"></span>
             </div>
 
             <footer>

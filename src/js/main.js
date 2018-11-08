@@ -12,6 +12,11 @@ var putCardArea = $('#card-played')[0];
 var pickaxe = $('#pickaxe')[0];
 
 
+
+var boardGame = new BoardView(distributeCards);
+
+boardGame.startGameBtn.addEventListener("click", function() { boardGame.startGame(); }, false);
+
 /* -------- */
 /*
 Functions utils
@@ -118,17 +123,49 @@ function renderCardsBoard(cards, locationDom) {
 /*
 Game Tour function
 */
+var updateStatusPlayers = function(player, gameOver) {
+    debugger
+    if (gameOver) {
+        var winner = state.players.find(function(p) {
+            return p.id = p.cards[0].length === 0;
+        });
+        //game.gameOver(player, winner);
+        return;
+    }
+
+    var newPlayers = state.players.map(function(p) {
+        if (p.turn) {
+            p.turn = false;
+            p = player;
+        } else if (!p.turn) {
+            p.turn = true;
+            console.log("**********************");
+            console.log("c'est au tour de ", p.name, " de jouer");
+            boardGame.displayPlayerTurn(p);
+        }
+        return p;
+    });
+
+    state.players = newPlayers;
+    console.log("players => ", state.players);
+}
+
 function gameTour(player) {
     var currentPlayer = null;
     var currentPlayerCards = null;
 
-    //je saisi à qui c'est tour
-    player.find(function(p) {
-        if (p.turn) {
-            currentPlayer = p;
-            currentPlayerCards = p.cards;
-        };
-    })
+    var currentPlayer = state.players.find(function(player) {
+        return player.turn;
+    });
+    var currentPlayerCards = currentPlayer.cards;
+
+    //init du 1e joueur qui joue la partie = player1
+    //player.find(function(p) {
+    //    if (p.turn) {
+    //        currentPlayer = p;
+    //        currentPlayerCards = p.cards;
+    //    };
+    //})
 
     console.log('le joueur qui joue est le ', currentPlayer.name);
     //je met à jour le state du joueur à qui c'est le tour
@@ -139,6 +176,11 @@ function gameTour(player) {
     //je place un event listener sur la div parent des cartes du joueur1 réel
     //qui appel la fonction qui check les règles du jeu 
     var cardClick = function(e) {
+        var currentPlayer = state.players.find(function(player) {
+            return player.turn;
+        });
+        var currentPlayerCards = currentPlayer.cards;
+
         var cardTargetObj = null;
         var cardTarget = e.target.closest('.card');
         cardTargetObj = currentPlayerCards.find(function(card) {
@@ -146,20 +188,44 @@ function gameTour(player) {
         });
         console.log('cardTarget: ', cardTargetObj)
 
-        boardGame.cardClick(cardTargetObj, cardTarget, currentPlayer, currentPlayerCards);
-
-        //c'est le tour de l'autre joueur
-        player.find(function(p) {
-            if (!p.turn) {
-                currentPlayer = p;
-                p.turn = true;
-                currentPlayerCards = p.cards;
-                console.log('c\'est au tour du joueur ', currentPlayer);
-            };
-        });
+        boardGame.cardClick(cardTargetObj, cardTarget, currentPlayer, currentPlayerCards, updateStatusPlayers, gameOver);
     }
-    boardGame.zoneCardsPlayer.addEventListener('click', cardClick, true);
+
+    boardGame.zoneCardsPlayer1.addEventListener('click', cardClick, true);
+    boardGame.zoneCardsPlayer2.addEventListener('click', cardClick, true);
+
+    var pickaxeClick = function(e) {
+        var currentPlayer = state.players.find(function(player) {
+            p = player.id;
+            return player.turn;
+        });
+        var cardClick = e.target.closest('.card');
+        var lastCardPickaxe = state.board.cards[0][0].slice(-1)[0];
+        var cardPickaxe = state.board.cards[0][0].find(function(card) {
+            if (card.id == cardClick.id) { return card; }
+        });
+        console.log('la carte cliquée dans la pioche: ', cardPickaxe);
+        boardGame.pickaxeClick(cardPickaxe);
+
+        //je met à jour la liste de carte de mon joueur courant
+        currentPlayer.cards.push(cardPickaxe);
+        //je supprime la carte du tas pioche 
+        // removeCard(cardPickaxe, state.board.cards[0][0]); 
+
+        updateStatusPlayers(currentPlayer, gameOver(currentPlayer));
+    }
+    boardGame.pickaxe.addEventListener('click', pickaxeClick, true);
+
+
     console.log('mon joueur ', currentPlayer.id, ' a ', currentPlayer.cards.length, ' cartes')
+}
+
+var gameOver = function(currentPlayer) {
+    debugger
+    if (currentPlayer.cards.length === 0) {
+        return true;
+    }
+    return false;
 }
 
 
