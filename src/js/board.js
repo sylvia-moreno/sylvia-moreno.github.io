@@ -6,7 +6,6 @@ var cardTemplate = require('./utils/card-template');
 var marginLeftValue = 0;
 var putCardArea = $('.card-played')[0];
 
-
 function BoardView(curentPlayer) {
     this.startGameBtn = $('#start-game')[0];
     this.zoneCardsPlayer1 = $('div[data-player="player1"]')[0];

@@ -124,7 +124,6 @@ function renderCardsBoard(cards, locationDom) {
 Game Tour function
 */
 var updateStatusPlayers = function(player, gameOver) {
-    debugger
     if (gameOver) {
         var winner = state.players.find(function(p) {
             return p.id = p.cards[0].length === 0;
@@ -209,7 +208,6 @@ function gameTour(player) {
 }
 
 var gameOver = function(currentPlayer) {
-    debugger
     if (currentPlayer.cards.length === 0) {
         return true;
     }
