@@ -46,7 +46,7 @@ function BoardView(curentPlayer) {
             updatePlayers(curentPlayer, gameOver(curentPlayer));
         } else {
             console.log('je ne peux pas jouer');
-            // je ne peux que cliquer sur la pioche 
+            // je ne peux que cliquer sur la pioche  
             this.pickaxeClick();
 
             //c'est au tour de l'autre joueur
