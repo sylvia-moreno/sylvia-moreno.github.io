@@ -17,29 +17,26 @@ function BoardView(curentPlayer) {
 
     var marginLeftValue = 0;
     var modale = $('.game-modal')[0];
+
     this.startGame = function() {
         var playerName1 = $('#input-name-player1')[0].value || 'player1';
         var playerName2 = $('#input-name-player2')[0].value || 'player2';
 
-        //mise en avant du nom du joueur à qui c'est le tour
-        //$('#game-player-name-' + curentPlayer.id + '').addClass('isTurn');
-
         //-- A l'ouverture de la page, je dispose la modale
         //on remplit les input names et on ferme la modale
-        $('#start-game').click(function() {
-            $('#game-player-name-player1')[0].innerHTML = playerName1;
-            $('#game-player-name-player2')[0].innerHTML = playerName2;
-            $('.game-modal-block').removeClass('visible');
-            $('.game-modal-backdrop').removeClass('visible');
-        });
+        $('#game-player-name-player1')[0].innerHTML = playerName1;
+        $('#game-player-name-player2')[0].innerHTML = playerName2;
+        //je ferme la modale
+        $('.game-modal-block').removeClass('visible');
+        $('.game-modal-backdrop').removeClass('visible');
+
 
     }
 
     this.cardClick = function(card, cardDomElt, curentPlayer, currentPlayerCards, updatePlayers, gameOver) {
-        debugger
-        //var cardOnBoardPlayed = state.cardsPlayed[0].slice(-1)[0];
         var cardOnBoardPlayed = state.cardsPlayed.slice(-1)[0]; // /!\ c'est la dernière carte qui donne le jeu 'tas pioche'
-        //je disabled les cartes de l'autre joueurs
+
+        //-- Est ce que je peux jouer ?
         if (card.number === cardOnBoardPlayed.number || card.color === cardOnBoardPlayed.color) {
             console.log('je peux jouer');
             this.playCard(card, curentPlayer.id, currentPlayerCards, cardDomElt);
@@ -59,10 +56,11 @@ function BoardView(curentPlayer) {
         //je retire la classe qui anime le nom du joueur à qui ce n'est plus le tour
         $('#game-player-name-' + curentPlayer.id + '').removeClass('isTurn');
 
-        //j'enabled les cartes de l'autre joueur
-
+        //j'disabled les cartes de l'autre joueur
+        //...
     }
 
+    //-- Fonction 'je peux pas jouer'
     this.pickaxeClick = function(card) {
         //j'ajoute la carte pioche à celle du jeu de mon joueur courant ihm
         var addCardPlayerGame = cardTemplate(card.color, card.number, card.id, marginLeftValue += 40);
@@ -72,14 +70,7 @@ function BoardView(curentPlayer) {
         $('#pickaxe button:last-child')[0].remove();
     }
 
-    //annotation pour dire à qui c'est le tour
-    this.displayPlayerTurn = function(player) {
-        var playerTurnDivName = $('#game-player-name-' + player.id + '').addClass('isTurn');
-        var intervalID = setInterval(playerTurnDivName, 2000);
-        clearInterval(intervalID);
-    };
-
-    //fonction 'je peux jouer'
+    //-- Fonction 'je peux jouer'
     this.playCard = function(card, curentPlayer, currentPlayerCards, cardDomElt) {
         //je supprime la carte ok du tas du joueur du DOM
         cardDomElt.remove();
@@ -106,31 +97,14 @@ function BoardView(curentPlayer) {
         $('#card-played')[0].innerHTML += newCard;
     }
 
-    //fonction 'je peux pas jouer': pioche + ajoute de la carte dans le jeu du joueur
-    /*this.notPlayCard = function() {
-        $('#pickaxe button.card').click(function(e) {
-            var cardAdd = null;
+    //-- Mise en avant du nom du joueur à qui c'est le tour
+    this.displayPlayerTurn = function(player) {
+        var playerTurnDivName = $('#game-player-name-' + player.id + '').addClass('isTurn');
+        var intervalID = setInterval(playerTurnDivName, 2000);
+        clearInterval(intervalID);
+    };
 
-            var card = e.target.closest('.card');
-            cardAdd = state.board.cards[0][0].find(function(card) {
-                if (card.id == e.target.closest('.card').id) {
-                    return card;
-                }
-            });
-            console.log('cardAdd: ', cardAdd);
-
-            //je met à jour mon obj player.card avec la carte en plus dans son jeu
-            curentPlayer.cards.push(cardAdd);
-            //j'ajoute la 1e carte à mon tas joueur
-            var addCardPlayerGame = cardTemplate(cardAdd.color, cardAdd.number, cardAdd.id, marginLeftValue += 40);
-            $('div[data-player="' + curentPlayer.id + '"] .card-gamme button:last-child')[0].innerHTML += addCardPlayerGame;
-
-            //je supprime la carte de la pile de la pioche
-            $('#pickaxe button:last-child')[0].remove();
-            console.log('mon joueur ', curentPlayer.id, ' a ', player.cards.length, ' cartes')
-        });
-    }*/
-
+    //-- Je ne l'utilise pas encore
     function switchPlayer() {
         var players = state.players;
         //c'est le tour de l'autre joueur

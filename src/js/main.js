@@ -151,21 +151,9 @@ var updateStatusPlayers = function(player, gameOver) {
 }
 
 function gameTour(player) {
-    var currentPlayer = null;
-    var currentPlayerCards = null;
-
     var currentPlayer = state.players.find(function(player) {
         return player.turn;
     });
-    var currentPlayerCards = currentPlayer.cards;
-
-    //init du 1e joueur qui joue la partie = player1
-    //player.find(function(p) {
-    //    if (p.turn) {
-    //        currentPlayer = p;
-    //        currentPlayerCards = p.cards;
-    //    };
-    //})
 
     console.log('le joueur qui joue est le ', currentPlayer.name);
     //je met à jour le state du joueur à qui c'est le tour
