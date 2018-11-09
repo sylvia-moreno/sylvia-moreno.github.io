@@ -144,9 +144,9 @@ Game Tour function
 var updateStatusPlayers = function(player, gameOver) {
     if (gameOver) {
         var winner = state.players.find(function(p) {
-            return p.id = p.cards[0].length === 0;
+            return p.id = p.cards.length === 0;
         });
-        //game.gameOver(player, winner);
+        boardGame.gameOver(player, winner);
         return;
     }
 
@@ -154,10 +154,12 @@ var updateStatusPlayers = function(player, gameOver) {
         if (p.turn) {
             p.turn = false;
             p = player;
+            debugger
         } else if (!p.turn) {
             p.turn = true;
             console.log("**********************");
             console.log("c'est au tour de ", p.name, " de jouer");
+            debugger
             boardGame.displayPlayerTurn(p);
         }
         return p;
@@ -246,7 +248,7 @@ window.onload = function() {
     initCardsBoard(getCard());
 
     //je distribue 7 cartes au joueur 1
-    distributeCards(7);
+    distributeCards(3);
 
     //j'affiches les cartes de mes joueurs dans l'ihm
     renderPlayersCards(state.players);

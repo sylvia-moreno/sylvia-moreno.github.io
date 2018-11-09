@@ -14,7 +14,6 @@ function BoardView(curentPlayer) {
     this.cardPlayed = $('#card-played')[0];
     this.pickaxe = $('#pickaxe button:last-child')[0];
 
-
     var marginLeftValue = 0;
     var modale = $('.game-modal')[0];
 
@@ -22,15 +21,22 @@ function BoardView(curentPlayer) {
         var playerName1 = $('#input-name-player1')[0].value || 'player1';
         var playerName2 = $('#input-name-player2')[0].value || 'player2';
 
+        //-- Update des noms des joueurs 
+        state.players[0].name = playerName1;
+        state.players[1].name = playerName2;
+
         //-- A l'ouverture de la page, je dispose la modale
         //on remplit les input names et on ferme la modale
         $('#game-player-name-player1')[0].innerHTML = playerName1;
         $('#game-player-name-player2')[0].innerHTML = playerName2;
-        //je ferme la modale
+
+        //-- Je blur la zone du joueur à qui ce n'est pas le tour par defaut
+        //$('div[data-player="player2"]').addClass('isBlur');
+
+        //-- Je ferme la modale
+        $('.game-modal').find('#content-start').removeClass('visible');
         $('.game-modal-block').removeClass('visible');
         $('.game-modal-backdrop').removeClass('visible');
-
-
     }
 
     this.cardClick = function(card, cardDomElt, curentPlayer, currentPlayerCards, updatePlayers, gameOver) {
@@ -47,11 +53,7 @@ function BoardView(curentPlayer) {
             updatePlayers(curentPlayer, gameOver(curentPlayer));
         } else {
             console.log('je ne peux pas jouer');
-            // je ne peux que cliquer sur la pioche  
-            //this.pickaxeClick();
-
-            //c'est au tour de l'autre joueur
-            //updatePlayers(curentPlayer, gameOver(curentPlayer));
+            //je peux piocher
         }
         //je retire la classe qui anime le nom du joueur à qui ce n'est plus le tour
         $('#game-player-name-' + curentPlayer.id + '').removeClass('isTurn');
@@ -99,9 +101,22 @@ function BoardView(curentPlayer) {
 
     //-- Mise en avant du nom du joueur à qui c'est le tour
     this.displayPlayerTurn = function(player) {
+        //$('div[data-player="player2"]').removeClass('isBlur');
+
+        //var notCurrentPlayerId = state.players.find(function(p) { if (!p.turn) return p })
+        //$('div[data-player="' + notCurrentPlayerId.id + '"]').addClass('isBlur');
         var playerTurnDivName = $('#game-player-name-' + player.id + '').addClass('isTurn');
         var intervalID = setInterval(playerTurnDivName, 2000);
         clearInterval(intervalID);
+    };
+
+    //-- Affichage de la modale avec nom du joueur victorieux
+    this.gameOver = function(player, winner) {
+        $('.game-modal').find('#content-gameover').addClass('visible');
+        $('.game-modal-block').addClass('visible');
+        $('.game-modal-backdrop').addClass('visible');
+        var sentenceWinner = winner.name + ' you win !';
+        $('.winner-player-name')[0].innerHTML = sentenceWinner;
     };
 
     //-- Je ne l'utilise pas encore

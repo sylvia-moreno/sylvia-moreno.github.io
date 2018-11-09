@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="main.css">
-    <title>Document</title>
+    <title>4colors Game</title>
 </head>
 
 <body>
@@ -63,22 +63,21 @@
 
             <div class="game-modal">
                 <div class="game-modal-block visible">
-                    <span class="game-modal-content game-modal-content-start">
-                        <form>
+                    <span class="game-modal-content">
+                        <form id="content-start" class="visible">
                             <h1>Start Game</h1>
                             <p>Which one of you two will be the first to run out of cards?</p>
                             <p>Player 1 : <input type="text" id="input-name-player1" placeholder="player 1, your name please"></p>
                             <p>Player 2 : <input type="text" id="input-name-player2" placeholder="player 2, your name please"></p>
                             <button id="start-game" type="button">Play !</button>
                         </form>
-                    </span>
-                    <!--<span class="game-modal-content game-modal-content-finish">
-                        <form>
+    
+                        <form id="content-gameover">
                             <h1>Congrate</h1>
-                            <p>Player 1 win !!</p>
+                            <p class="winner-player-name"></p>
                             <button id="start-game">Play again ?</button>
                         </form>
-                    </span>-->
+                    </span>
 
 
                 </div>
@@ -89,8 +88,6 @@
                 <ul>
                     <li><span>S. Moreno</span></li>
                     <li><span>Novembre 2018</span></li>
-                    <li><span><a href="#">Linkedin</a></span></li>
-                    <li><span><a href="#">Twitter</a></span></li>
                 </ul>
             </footer>
         </div>

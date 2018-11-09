@@ -66,11 +66,11 @@
 }
 
 .game-modal-content {
-    &-start,
-    &-finish {
-        form {
-            display: flex;
-            flex-direction: column;
-        }
+    form {
+        display: none;
+        flex-direction: column;
+    }
+    form.visible {
+        display: flex;
     }
 }

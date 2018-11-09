@@ -60,7 +60,7 @@
             z-index: 50;
             position: relative;
             margin: 10px auto 0 auto;
-            width: 900px;
+            width: 1050px;
             margin-bottom: 200px;
             .table-surface {
                 box-shadow: 0px 40px 10px rgba(0, 0, 0, .2);
@@ -101,14 +101,14 @@
             border-left: 18px solid transparent;
             border-right: 18px solid transparent;
             height: 0;
-            width: 865px;
+            width: 1013px;
             border-bottom: transparent;
             background: url('./src/assets/img/ground.png');
             &:before {
                 content: '';
                 border-bottom: 6px dotted #6faa61;
                 position: absolute;
-                width: 897px;
+                width: 1046px;
                 height: 0px;
                 left: -16px;
                 top: -58px;
