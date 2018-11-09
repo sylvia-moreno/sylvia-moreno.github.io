@@ -8,7 +8,7 @@ function updateStateCardBoard(cards, arrCardBoard) {
             arrCardBoard.splice(index, 1);
         }
     }
-    console.log('il me reste ', state.board.cards[0].length, ' après la distribution ');
+    console.log('il me reste ', state.board.cards[0][0].length, ' après la distribution ');
 }
 
 module.exports = updateStateCardBoard;

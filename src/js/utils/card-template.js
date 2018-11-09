@@ -1,5 +1,5 @@
 function cardTemplate(color, number, id, marginLeftValue) {
-
+    //recréer le btn 
     var card =
         '<button role="button" class="card ' + color + '" id="' + id + '" style="margin-left:' + marginLeftValue + 'px;">' +
         '<div class="card_tabs card_top text-left">' + number + '</div>' +

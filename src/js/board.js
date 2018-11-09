@@ -14,6 +14,7 @@ function BoardView(curentPlayer) {
     this.cardPlayed = $('#card-played')[0];
     this.pickaxe = $('#pickaxe button:last-child')[0];
 
+
     var marginLeftValue = 0;
     var modale = $('.game-modal')[0];
 
@@ -47,10 +48,10 @@ function BoardView(curentPlayer) {
         } else {
             console.log('je ne peux pas jouer');
             // je ne peux que cliquer sur la pioche  
-            this.pickaxeClick();
+            //this.pickaxeClick();
 
             //c'est au tour de l'autre joueur
-            updatePlayers(curentPlayer, gameOver(curentPlayer));
+            //updatePlayers(curentPlayer, gameOver(curentPlayer));
         }
         //je retire la classe qui anime le nom du joueur à qui ce n'est plus le tour
         $('#game-player-name-' + curentPlayer.id + '').removeClass('isTurn');
@@ -60,10 +61,10 @@ function BoardView(curentPlayer) {
     }
 
     //-- Fonction 'je peux pas jouer'
-    this.pickaxeClick = function(card) {
+    this.pickaxeClick = function(card, curentPlayer) {
         //j'ajoute la carte pioche à celle du jeu de mon joueur courant ihm
         var addCardPlayerGame = cardTemplate(card.color, card.number, card.id, marginLeftValue += 40);
-        $('div[data-player="' + curentPlayer + '"] .card-gamme button:last-child')[0].innerHTML += addCardPlayerGame;
+        $('div[data-player="' + curentPlayer.id + '"] .card-gamme button:last-child')[0].innerHTML += addCardPlayerGame;
 
         //je supprime la carte de la pioche 
         $('#pickaxe button:last-child')[0].remove();

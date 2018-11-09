@@ -27,19 +27,11 @@ function initCardsBoard(cards) {
     console.log('voici la liste des ', arrCards.length, ' cartes mélangées : ', arrCards);
     //je met à jour la liste de mes cartes qui se trouvent sur la table
     state.board.cards.push(arrCards);
+    state.pioche.cards.push(arrCards);
     console.log('A initCardsBoard, voici ce que j\'ai dans mon state board cards ', state.board.cards[0][0]);
 }
 
-function updateStateCardBoard(cards, arrCardBoard) {
-    var index;
-    for (var i = 0; i < cards.length; i++) {
-        index = arrCardBoard.indexOf(arrCardBoard[i]);
-        if (index > -1) {
-            arrCardBoard.splice(index, 1);
-        }
-    }
-    console.log('il me reste ', state.board.cards[0][0].length, ' après la distribution ');
-}
+
 
 function getRandomCards(cardsNumbers) {
     var arrCards = [];
@@ -104,18 +96,44 @@ function renderPlayersCards(players) {
             $('div[data-player="' + player.id + '"] .card-gamme')[0].innerHTML += newCard;
         })
     })
-
 }
 
-function renderCardsBoard(cards, locationDom) {
+function renderCardsBoard(cards, locationDom, pickaxeClick) {
     var newCard = null;
     cards.forEach(function(card) {
-        newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue = 0);
-        locationDom.innerHTML += newCard;
+        var marginLeftValue = 0;
+        var button = document.createElement("button");
+        button.classList.add('card', card.color);
+        button.id = card.id;
+        button.style.marginLeft = marginLeftValue;
+        var div1 = document.createElement("div");
+        var div2 = document.createElement("div");
+        var div3 = document.createElement("div");
+        div1.classList.add('card_tabs', 'card_top', 'text-left');
+        div1.innerHTML = card.number;
+        div2.classList.add('card_centre', 'text-center', 'center-block');
+        div2.innerHTML = card.number;
+        div3.classList.add('card_tabs', 'card_bottom', 'text-left');
+        div3.innerHTML = card.number;
+
+        button.appendChild(div1);
+        button.appendChild(div2);
+        button.appendChild(div3);
+
+        //if (locationDom === pickaxe) {
+        //    locationDom.innerHTML += newCard;
+        //}
+        //locationDom.innerHTML += newCard;
+        button.onclick = function(e) {
+            pickaxeClick(e)
+        }
+        locationDom.appendChild(button);
+
+        //$('#pickaxe button')[card.id].addEventListener('click', pickaxeClick, true);;
     })
 
     //je met à jour le state de ma pile "cartes jouées"
-    if (locationDom === putCardArea) { state.cardsPlayed.push(cards[0]) }
+    if (locationDom === putCardArea) { state.cardsPlayed.push(cards[0]); }
 }
 
 
@@ -181,30 +199,33 @@ function gameTour(player) {
     boardGame.zoneCardsPlayer1.addEventListener('click', cardClick, true);
     boardGame.zoneCardsPlayer2.addEventListener('click', cardClick, true);
 
-    var pickaxeClick = function(e) {
-        var currentPlayer = state.players.find(function(player) {
-            p = player.id;
-            return player.turn;
-        });
-        var cardClick = e.target.closest('.card');
-        var lastCardPickaxe = state.board.cards[0][0].slice(-1)[0];
-        var cardPickaxe = state.board.cards[0][0].find(function(card) {
-            if (card.id == cardClick.id) { return card; }
-        });
-        console.log('la carte cliquée dans la pioche: ', cardPickaxe);
-        boardGame.pickaxeClick(cardPickaxe);
+    //boardGame.pickaxe.addEventListener('click', pickaxeClick, true);
 
-        //je met à jour la liste de carte de mon joueur courant
-        currentPlayer.cards.push(cardPickaxe);
-        //je supprime la carte du tas pioche 
-        // removeCard(cardPickaxe, state.board.cards[0][0]); 
-
-        updateStatusPlayers(currentPlayer, gameOver(currentPlayer));
-    }
-    boardGame.pickaxe.addEventListener('click', pickaxeClick, true);
 
 
     console.log('mon joueur ', currentPlayer.id, ' a ', currentPlayer.cards.length, ' cartes')
+}
+
+var pickaxeClick = function(e) {
+    var currentPlayer = state.players.find(function(player) {
+        p = player.id;
+        return player.turn;
+    });
+    var cardClick = e.target.closest('.card');
+    var lastCardPickaxe = state.board.cards[0][0].slice(-1)[0];
+    var cardPickaxe = state.board.cards[0][0].find(function(card) {
+        if (card.id == cardClick.id) { return card; }
+    });
+
+    console.log('la carte cliquée dans la pioche: ', cardPickaxe);
+    boardGame.pickaxeClick(cardPickaxe, currentPlayer);
+
+    //je met à jour la liste de carte de mon joueur courant
+    currentPlayer.cards.push(cardPickaxe);
+    //je supprime la carte du tas pioche 
+    // removeCard(cardPickaxe, state.board.cards[0][0]); 
+
+    updateStatusPlayers(currentPlayer, gameOver(currentPlayer));
 }
 
 var gameOver = function(currentPlayer) {
@@ -234,7 +255,7 @@ window.onload = function() {
     renderCardsBoard(initCardStartGame(1), putCardArea);
 
     //j'init le tas de cartes de la pioche
-    renderCardsBoard(state.board.cards[0][0], pickaxe);
+    renderCardsBoard(state.board.cards[0][0], pickaxe, pickaxeClick);
 
     //au tour du joueur 1
     gameTour(state.players)
