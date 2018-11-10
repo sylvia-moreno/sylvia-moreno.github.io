@@ -101,6 +101,7 @@ function BoardView(curentPlayer) {
 
     //-- Mise en avant du nom du joueur à qui c'est le tour
     this.displayPlayerTurn = function(player) {
+        $('#game-player-name-1').removeClass('isTurn');
         //$('div[data-player="player2"]').removeClass('isBlur');
 
         //var notCurrentPlayerId = state.players.find(function(p) { if (!p.turn) return p })
