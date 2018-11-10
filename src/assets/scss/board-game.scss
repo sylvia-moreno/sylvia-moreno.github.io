@@ -154,3 +154,18 @@
         }
     }
 }
+
+.zone-label {
+    font-size: 45px;
+    position: absolute;
+    font-family: 'VT323', monospace;
+    text-shadow: 1px 1px 0 red;
+    &-played {
+        right: 116px;
+        top: 437px;
+    }
+    &-pioche {
+        left: 220px;
+        top: 440x;
+    }
+}

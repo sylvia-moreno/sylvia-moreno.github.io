@@ -93,7 +93,7 @@ function BoardView(curentPlayer) {
         $('#card-played button')[0].remove();
 
         //j'ajoute cette carte au tas 'cartes à jouer'
-        var newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue);
+        var newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue = 0);
         $('#card-played')[0].innerHTML += newCard;
     }
 

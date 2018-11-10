@@ -136,6 +136,18 @@
   100% {
     opacity: 1; } }
 
+.zone-label {
+  font-size: 45px;
+  position: absolute;
+  font-family: 'VT323', monospace;
+  text-shadow: 1px 1px 0 red; }
+  .zone-label-played {
+    right: 116px;
+    top: 437px; }
+  .zone-label-pioche {
+    left: 220px;
+    top: 440x; }
+
 .card-game {
   width: 100px; }
 
@@ -230,7 +242,7 @@
     background-color: green;
     color: green; }
   .card-gamme .card:hover {
-    transform: translate(0px, -10px); }
+    transform: translate(0px, -30px); }
 
 .zone-player-cards {
   justify-content: space-evenly;

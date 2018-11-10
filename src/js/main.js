@@ -94,7 +94,7 @@ function renderPlayersCards(players) {
     var newCard = null;
     players.forEach(function(player) {
         player.cards.forEach(function(card) {
-            newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue += 20);
+            newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue += 30);
             $('div[data-player="' + player.id + '"] .card-gamme')[0].innerHTML += newCard;
         })
     })
