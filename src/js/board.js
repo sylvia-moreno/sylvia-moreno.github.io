@@ -5,7 +5,6 @@ var updateStateCardBoard = require('./utils/update-state-card');
 var removeCard = require('./utils/remove-card');
 var cardTemplate = require('./utils/card-template');
 
-var marginLeftValue = 0;
 var putCardArea = $('.card-played')[0];
 
 function BoardView(curentPlayer) {
@@ -16,7 +15,7 @@ function BoardView(curentPlayer) {
     this.cardPlayed = $('#card-played')[0];
     this.pickaxe = $('#pickaxe button:last-child')[0];
 
-    var marginLeftValue = 0;
+    var marginLeftValue = 100;
     var modale = $('.game-modal')[0];
 
     this.startGame = function() {
@@ -31,9 +30,6 @@ function BoardView(curentPlayer) {
         //on remplit les input names et on ferme la modale
         $('#game-player-name-player1')[0].innerHTML = playerName1;
         $('#game-player-name-player2')[0].innerHTML = playerName2;
-
-        //-- Je blur la zone du joueur à qui ce n'est pas le tour par defaut
-        //$('div[data-player="player2"]').addClass('isBlur');
 
         //-- Je ferme la modale
         $('.game-modal').find('#content-start').removeClass('visible');
@@ -67,8 +63,8 @@ function BoardView(curentPlayer) {
     //-- Fonction 'je peux pas jouer'
     this.pickaxeClick = function(card, curentPlayer) {
         //j'ajoute la carte pioche à celle du jeu de mon joueur courant ihm
-        var addCardPlayerGame = cardTemplate(card.color, card.number, card.id, marginLeftValue += 40);
-        $('div[data-player="' + curentPlayer.id + '"] .card-gamme button:last-child')[0].innerHTML += addCardPlayerGame;
+        var addCardPlayerGame = cardTemplate(card.color, card.number, card.id, marginLeftValue += 20);
+        $('div[data-player="' + curentPlayer.id + '"] .card-gamme')[0].innerHTML += addCardPlayerGame;
 
         //je supprime la carte de la pioche 
         $('#pickaxe button:last-child')[0].remove();

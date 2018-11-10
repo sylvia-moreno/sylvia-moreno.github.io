@@ -94,7 +94,7 @@ function renderPlayersCards(players) {
     var newCard = null;
     players.forEach(function(player) {
         player.cards.forEach(function(card) {
-            newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue += 60);
+            newCard = cardTemplate(card.color, card.number, card.id, marginLeftValue += 20);
             $('div[data-player="' + player.id + '"] .card-gamme')[0].innerHTML += newCard;
         })
     })
@@ -194,7 +194,6 @@ function gameTour(player) {
             if (card.id == cardTarget.id) { return card; }
         });
         console.log('cardTarget: ', cardTargetObj)
-
         boardGame.cardClick(cardTargetObj, cardTarget, currentPlayer, currentPlayerCards, updateStatusPlayers, gameOver);
     }
 
@@ -248,7 +247,7 @@ window.onload = function() {
     initCardsBoard(getCard());
 
     //je distribue 7 cartes au joueur 1
-    distributeCards(3);
+    distributeCards(2);
 
     //j'affiches les cartes de mes joueurs dans l'ihm
     renderPlayersCards(state.players);
