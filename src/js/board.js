@@ -1,3 +1,5 @@
+var $ = require("jquery");
+
 var state = require('./utils/state');
 var updateStateCardBoard = require('./utils/update-state-card');
 var removeCard = require('./utils/remove-card');
