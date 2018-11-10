@@ -154,12 +154,10 @@ var updateStatusPlayers = function(player, gameOver) {
         if (p.turn) {
             p.turn = false;
             p = player;
-            debugger
         } else if (!p.turn) {
             p.turn = true;
             console.log("**********************");
             console.log("c'est au tour de ", p.name, " de jouer");
-            debugger
             boardGame.displayPlayerTurn(p);
         }
         return p;
