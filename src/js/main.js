@@ -1,3 +1,5 @@
+import {animLogo} from "./utils/animeLogo";
+
 var $ = require("jquery");
 
 var state = require('./utils/state');
@@ -238,10 +240,7 @@ var gameOver = function(currentPlayer) {
 
 
 window.onload = function() {
-    //animation logo
-    setTimeout(function() {
-        document.querySelector('.logo').classList.add('open');
-    }, 500);
+    animLogo();
 
     //je mélange mes 76 cartes 
     initCardsBoard(getCard());
