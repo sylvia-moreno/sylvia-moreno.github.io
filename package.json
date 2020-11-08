@@ -8,7 +8,9 @@
         "clean": "rm dist/bundle.js",
         "build-dev": "webpack -d --mode development",
         "build-dev:watch": "webpack -d --mode development --watch",
-        "build-prod": "webpack -p --mode production"
+        "build-prod": "webpack -p --mode production",
+        "test": "mocha src/js/tests/**",
+        "test:watch": "mocha src/js/tests/** --watch"
     },
     "dependencies": {
         "event-stream": "^4.0.1",
@@ -17,6 +19,9 @@
         "nodemon": "^1.18.4"
     },
     "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^8.2.1",
+        "sinon": "^9.2.1",
         "webpack": "^4.23.1",
         "webpack-cli": "^3.1.2"
     }
